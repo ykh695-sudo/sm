@@ -110,10 +110,13 @@
       max-width: 1060px; margin: 0 auto; width: 100%;
       display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
     }
-    @media (max-width: 760px) {
-      .hero-inner { grid-template-columns: 1fr; }
-      .hero-right { display: none; }
-    }
+@media (max-width: 760px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-right { 
+    display: block;
+    margin-top: 1.5rem;  /* 위 텍스트와 간격 */
+  }
+}
 
     .hero-eyebrow {
       font-size: 0.74rem; letter-spacing: 0.22em;
