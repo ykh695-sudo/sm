@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>성문고등학교 교목실</title>
+  <title>성문고등학교 학원복음화 사역 안내</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
@@ -77,7 +77,7 @@
 
     /* HERO */
     .hero {
-      min-height: 100vh;
+      min-height: auto;
       background: var(--green);
       display: flex; align-items: center;
       padding: 8rem 2.5rem 5rem;
@@ -110,15 +110,10 @@
       max-width: 1060px; margin: 0 auto; width: 100%;
       display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
     }
-@media (max-width: 760px) {
-  .hero-inner { 
-    grid-template-columns: 1fr !important; 
-  }
-  .hero-right { 
-    display: block !important; 
-    margin-top: 2rem;
-  }
-}
+    @media (max-width: 760px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+    }
 
     .hero-eyebrow {
       font-size: 0.74rem; letter-spacing: 0.22em;
@@ -170,8 +165,7 @@
       transition: border-color 0.2s, color 0.2s;
     }
     .btn-ghost:hover { border-color: var(--gold-lt); color: var(--gold-lt); }
-
-    .hero-right { animation: fadeUp 0.9s 0.35s ease both; }
+ro-right { animation: fadeUp 0.9s 0.35s ease both; }
     .notice-card {
       background: rgba(255,255,255,0.06);
       border: 1px solid rgba(255,255,255,0.12);
@@ -207,322 +201,24 @@
       margin-top: 0.2rem; letter-spacing: 0.04em;
     }
 
-    /* SECTION COMMON */
-    section { padding: 5.5rem 2.5rem; }
-    .container { max-width: 1060px; margin: 0 auto; }
-    .sec-label {
-      font-size: 0.72rem; letter-spacing: 0.2em;
-      text-transform: uppercase; color: var(--gold);
-      margin-bottom: 0.6rem;
-    }
-    .sec-title {
-      font-family: 'Noto Serif KR', serif;
-      font-size: clamp(1.7rem, 3.5vw, 2.4rem);
-      font-weight: 400; color: var(--green);
-      line-height: 1.3; margin-bottom: 0.8rem;
-    }
-    .sec-desc {
-      font-size: 0.92rem; color: var(--muted);
-      max-width: 520px; line-height: 1.9;
-    }
 
-    /* MINISTRIES */
-    .ministries { background: var(--white); }
-    .min-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.5px; margin-top: 3.2rem;
-      background: var(--stone-mid);
-      border: 1.5px solid var(--stone-mid);
+    /* ANIMATIONS & REVEAL */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: none; }
     }
-    .min-card {
-      background: var(--white);
-      padding: 2.2rem 1.8rem;
-      position: relative; overflow: hidden;
-      transition: background 0.3s;
-    }
-    .min-card:hover { background: var(--sage); }
-    .min-card::after {
-      content: ''; position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 3px; background: var(--green);
-      transform: scaleX(0); transform-origin: left;
-      transition: transform 0.35s ease;
-    }
-    .min-card:hover::after { transform: scaleX(1); }
-    .min-icon {
-      width: 44px; height: 44px;
-      background: var(--sage); border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.15rem; margin-bottom: 1.3rem;
-      transition: background 0.3s;
-    }
-    .min-card:hover .min-icon { background: var(--sage-dark); }
-    .min-name {
-      font-family: 'Noto Serif KR', serif;
-      font-size: 1.05rem; font-weight: 500;
-      color: var(--green); margin-bottom: 0.6rem;
-    }
-    .min-body { font-size: 0.84rem; color: var(--muted); line-height: 1.8; }
-    .min-tag {
-      display: inline-block; margin-top: 1rem;
-      font-size: 0.72rem; letter-spacing: 0.1em;
-      color: var(--gold); border: 1px solid rgba(176,125,42,0.3);
-      padding: 0.2rem 0.7rem; border-radius: 2rem;
-    }
-
-    /* CHAPEL */
-    .chapel { background: var(--stone); }
-    .chapel-inner {
-      display: grid; grid-template-columns: 1fr 1.2fr;
-      gap: 4rem; align-items: start; margin-top: 3rem;
-    }
-    @media (max-width: 720px) { .chapel-inner { grid-template-columns: 1fr; } }
-
-    .chapel-info-box {
-      background: var(--green); padding: 2.4rem; border-radius: 2px;
-    }
-    .chapel-info-label {
-      font-size: 0.7rem; letter-spacing: 0.18em;
-      text-transform: uppercase; color: var(--gold-lt);
-      margin-bottom: 1.5rem;
-    }
-    .chapel-row {
-      display: flex; justify-content: space-between; align-items: baseline;
-      padding: 0.75rem 0;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-    .chapel-row:last-child { border-bottom: none; }
-    .chapel-key { font-size: 0.8rem; color: rgba(255,255,255,0.5); }
-    .chapel-val {
-      font-family: 'Noto Serif KR', serif;
-      font-size: 0.95rem; font-weight: 400;
-      color: rgba(255,255,255,0.88); text-align: right;
-    }
-    .chapel-val strong { color: var(--gold-lt); font-weight: 500; }
-
-    .scripture-block {
-      padding: 2rem; background: var(--white);
-      border-left: 3px solid var(--gold); margin-top: 1.5rem;
-    }
-    .scripture-text {
-      font-family: 'Noto Serif KR', serif;
-      font-size: 1rem; font-weight: 300;
-      color: var(--green); line-height: 1.9; margin-bottom: 0.6rem;
-    }
-    .scripture-ref { font-size: 0.78rem; color: var(--gold); letter-spacing: 0.08em; }
-
-    .sch-title {
-      font-family: 'Noto Serif KR', serif;
-      font-size: 1.1rem; font-weight: 500;
-      color: var(--green); margin-bottom: 1.2rem;
-    }
-    .sch-list { list-style: none; }
-    .sch-item {
-      display: grid; grid-template-columns: 60px 1fr auto;
-      align-items: center; gap: 1rem;
-      padding: 0.95rem 1rem;
-      background: var(--white);
-      border-bottom: 1px solid var(--stone-mid);
-      transition: background 0.2s;
-    }
-    .sch-item:first-child { border-radius: 2px 2px 0 0; }
-    .sch-item:last-child  { border-bottom: none; border-radius: 0 0 2px 2px; }
-    .sch-item:hover { background: var(--sage); }
-    .sch-time {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 0.95rem; color: var(--gold); font-weight: 400;
-    }
-    .sch-content { font-size: 0.88rem; color: var(--charcoal); }
-    .sch-who { font-size: 0.75rem; color: var(--muted); }
-
-    /* KOINONIA */
-    .koinonia { background: var(--sage); }
-    .koin-inner {
-      display: grid; grid-template-columns: 1.1fr 1fr;
-      gap: 4rem; align-items: center; margin-top: 2rem;
-    }
-    @media (max-width: 720px) { .koin-inner { grid-template-columns: 1fr; } }
-
-    .koin-text .sec-desc { max-width: 100%; margin-top: 1.2rem; }
-    .koin-bullets {
-      margin-top: 1.8rem;
-      display: flex; flex-direction: column; gap: 0.9rem;
-    }
-    .koin-bullet { display: flex; align-items: flex-start; gap: 0.9rem; }
-    .koin-dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: var(--gold); flex-shrink: 0; margin-top: 0.55rem;
-    }
-    .koin-bullet-text { font-size: 0.9rem; color: var(--charcoal); line-height: 1.7; }
-    .koin-bullet-text strong { font-weight: 500; color: var(--green); }
-
-    .koin-card {
-      background: var(--white); border-radius: 2px; overflow: hidden;
-      box-shadow: 0 4px 24px rgba(28,63,47,0.08);
-    }
-    .koin-card-header {
-      background: var(--green); padding: 1.5rem 1.8rem;
-      display: flex; align-items: center; gap: 1rem;
-    }
-    .koin-card-icon { font-size: 1.6rem; line-height: 1; }
-    .koin-card-label {
-      font-family: 'Noto Serif KR', serif;
-      font-size: 1rem; font-weight: 500; color: var(--white);
-    }
-    .koin-card-sub { font-size: 0.78rem; color: rgba(255,255,255,0.5); }
-    .koin-card-body { padding: 1.5rem 1.8rem; }
-    .koin-detail-row {
-      display: flex; justify-content: space-between;
-      padding: 0.65rem 0;
-      border-bottom: 1px solid var(--stone-mid);
-      font-size: 0.86rem;
-    }
-    .koin-detail-row:last-child { border-bottom: none; }
-    .koin-detail-key { color: var(--muted); }
-    .koin-detail-val { color: var(--charcoal); font-weight: 500; }
-
-    /* AI / EDUCATION */
-    .aiedu { background: var(--white); }
-    .ai-banner {
-      margin-top: 3rem; background: var(--green);
-      border-radius: 2px; padding: 3rem;
-      display: flex; gap: 3rem; align-items: center; flex-wrap: wrap;
-    }
-    .ai-banner-left { flex: 1; min-width: 220px; }
-    .ai-banner-tag {
-      font-size: 0.7rem; letter-spacing: 0.18em;
-      text-transform: uppercase; color: var(--gold-lt); margin-bottom: 0.8rem;
-    }
-    .ai-banner-title {
-      font-family: 'Noto Serif KR', serif;
-      font-size: 1.3rem; font-weight: 400;
-      color: var(--white); line-height: 1.5;
-    }
-    .ai-banner-desc {
-      font-size: 0.84rem; color: rgba(255,255,255,0.55);
-      line-height: 1.8; margin-top: 0.8rem;
-    }
-    .ai-chips {
-      display: flex; flex-wrap: wrap; gap: 0.55rem; margin-top: 2rem;
-    }
-    .ai-chip {
-      font-size: 0.78rem; padding: 0.3rem 0.9rem;
-      border: 1px solid rgba(255,255,255,0.2);
-      color: rgba(255,255,255,0.7); border-radius: 2rem;
-    }
-    .ai-chip.active {
-      border-color: var(--gold-lt); color: var(--gold-lt);
-      background: rgba(184,135,42,0.08);
-    }
-    .ai-banner-right {
-      display: flex; flex-direction: column; gap: 1rem; min-width: 200px;
-    }
-    .ai-stat { text-align: right; }
-    .ai-stat-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2.4rem; font-weight: 300;
-      color: var(--gold-lt); line-height: 1;
-    }
-    .ai-stat-label {
-      font-size: 0.75rem; color: rgba(255,255,255,0.45);
-      letter-spacing: 0.06em; margin-top: 0.2rem;
-    }
-
-    /* CONTACT */
-    .contact { background: var(--stone); }
-    .contact-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 4rem; margin-top: 3rem;
-    }
-    @media (max-width: 720px) { .contact-grid { grid-template-columns: 1fr; } }
-
-    .contact-block {
-      padding: 1.5rem; background: var(--white);
-      border-left: 3px solid var(--green); margin-bottom: 1rem;
-    }
-    .contact-block-label {
-      font-size: 0.72rem; letter-spacing: 0.14em;
-      text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem;
-    }
-    .contact-block-val { font-size: 0.9rem; color: var(--charcoal); line-height: 1.7; }
-
-    .form-field { margin-bottom: 0.8rem; }
-    .form-field input,
-    .form-field textarea,
-    .form-field select {
-      width: 100%; background: var(--white);
-      border: 1px solid var(--stone-mid);
-      padding: 0.85rem 1rem;
-      font-family: 'Noto Sans KR', sans-serif;
-      font-size: 0.88rem; color: var(--charcoal);
-      outline: none; border-radius: 2px;
-      transition: border-color 0.2s;
-    }
-    .form-field input:focus,
-    .form-field textarea:focus,
-    .form-field select:focus { border-color: var(--green); }
-    .form-field textarea { height: 110px; resize: vertical; }
-    .btn-send {
-      background: var(--green); color: var(--white);
-      font-family: 'Noto Sans KR', sans-serif;
-      font-size: 0.86rem; letter-spacing: 0.06em;
-      padding: 0.9rem 2.2rem;
-      border: none; cursor: pointer; border-radius: 2px;
-      transition: background 0.2s;
-    }
-    .btn-send:hover { background: var(--green-mid); }
-
-    /* FOOTER */
-    footer { background: var(--green); padding: 2.5rem; }
-    .footer-inner {
-      max-width: 1060px; margin: 0 auto;
-      display: flex; justify-content: space-between;
-      align-items: flex-start; flex-wrap: wrap; gap: 2rem;
-    }
-    .footer-brand { display: flex; align-items: center; gap: 0.9rem; }
-    .footer-cross { width: 18px; height: 18px; position: relative; }
-    .footer-cross::before, .footer-cross::after {
-      content: ''; position: absolute; background: var(--gold-lt);
-    }
-    .footer-cross::before { width: 2px; height: 100%; left: 50%; transform: translateX(-50%); }
-    .footer-cross::after  { height: 2px; width: 100%; top: 32%; }
-    .footer-name {
-      font-family: 'Noto Serif KR', serif;
-      font-size: 0.95rem; color: rgba(255,255,255,0.8);
-    }
-    .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
-    .footer-links a {
-      font-size: 0.8rem; color: rgba(255,255,255,0.4);
-      text-decoration: none; transition: color 0.2s;
-    }
-    .footer-links a:hover { color: var(--gold-lt); }
-    .footer-copy {
-      width: 100%; font-size: 0.75rem;
-      color: rgba(255,255,255,0.25);
-      padding-top: 1.5rem;
-      border-top: 1px solid rgba(255,255,255,0.07);
-      margin-top: 0.5rem;
-    }
-
-    /* REVEAL */
     .reveal {
       opacity: 0; transform: translateY(22px);
       transition: opacity 0.65s ease, transform 0.65s ease;
     }
     .reveal.visible { opacity: 1; transform: none; }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: none; }
-    }
-
     @media (max-width: 600px) {
       nav { padding: 0.9rem 1.2rem; }
       .nav-links { display: none; }
       section { padding: 4rem 1.2rem; }
-      .ai-banner { padding: 2rem 1.5rem; }
     }
+
 .special-item {
   padding: 0.85rem 1rem;
   margin-bottom: 0.3rem;
@@ -571,12 +267,423 @@
   0%, 100% { opacity: 1; transform: translateY(-50%) scale(1); }
   50%       { opacity: 0.3; transform: translateY(-50%) scale(0.7); }
 }
-</style>
+
+    /* ─────────────── SECTION COMMON ─────────────── */
+    section { padding: 5.5rem 2.5rem; }
+    .container { max-width: 1060px; margin: 0 auto; }
+    .sec-label {
+      font-size: 0.72rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 0.6rem;
+    }
+    .sec-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+      font-weight: 400; color: var(--green);
+      line-height: 1.3; margin-bottom: 0.8rem;
+    }
+    .sec-desc {
+      font-size: 0.92rem; color: var(--muted);
+      max-width: 580px; line-height: 1.9;
+    }
+
+    /* ─────────────── SECTION 1 · 사역 개요 ─────────────── */
+    .overview { background: var(--white); }
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.5px; margin-top: 3rem;
+      background: var(--stone-mid);
+      border: 1.5px solid var(--stone-mid);
+    }
+    .ov-card {
+      background: var(--white);
+      padding: 2rem 1.6rem;
+      position: relative; overflow: hidden;
+      transition: background 0.3s;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+    }
+    .ov-card:hover { background: var(--sage); }
+    .ov-card::after {
+      content: ''; position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px; background: var(--gold);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.35s ease;
+    }
+    .ov-card:hover::after { transform: scaleX(1); }
+    .ov-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; font-weight: 300;
+      color: rgba(176,125,42,0.35); line-height: 1;
+      margin-bottom: 1rem;
+    }
+    .ov-icon { font-size: 1.4rem; margin-bottom: 0.8rem; display: block; }
+    .ov-name {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 1rem; font-weight: 600;
+      color: var(--green); margin-bottom: 0.5rem;
+    }
+    .ov-body { font-size: 0.82rem; color: var(--muted); line-height: 1.75; }
+    .ov-tag {
+      display: inline-block; margin-top: 1rem;
+      font-size: 0.72rem; letter-spacing: 0.08em;
+      color: var(--gold); border: 1px solid rgba(176,125,42,0.3);
+      padding: 0.2rem 0.7rem; border-radius: 2rem;
+    }
+
+    /* ─────────────── SECTION 2 · 코이노니아 ─────────────── */
+    .s-koinonia { background: var(--stone); }
+    .ministry-layout {
+      display: grid; grid-template-columns: 1.1fr 1fr;
+      gap: 4rem; align-items: start; margin-top: 3rem;
+    }
+    @media (max-width: 760px) { .ministry-layout { grid-template-columns: 1fr; } }
+
+    /* 공통 이미지 플레이스홀더 */
+    .img-slot {
+      width: 100%; border-radius: 4px; overflow: hidden;
+      background: var(--stone-mid);
+      border: 2px dashed rgba(176,125,42,0.35);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      color: var(--gold); gap: 0.6rem;
+      font-size: 0.78rem; letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .img-slot svg { width: 36px; height: 36px; opacity: 0.5; }
+    .img-slot-note {
+      font-size: 0.7rem; color: var(--muted);
+      text-align: center; padding: 0 1rem;
+      line-height: 1.6;
+    }
+    .img-slot img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .img-slot-h200 { height: 200px; }
+    .img-slot-h240 { height: 240px; }
+    .img-slot-h280 { height: 280px; }
+
+    /* 사역 상세 공통 */
+    .ministry-text .sec-desc { max-width: 100%; margin-top: 1rem; }
+
+    .sub-heading {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 1rem; font-weight: 600;
+      color: var(--green);
+      border-left: 3px solid var(--gold);
+      padding-left: 0.75rem;
+      margin: 1.8rem 0 0.8rem;
+    }
+    .sub-heading:first-of-type { margin-top: 0; }
+
+    .body-text { font-size: 0.9rem; color: var(--charcoal); line-height: 1.9; margin-bottom: 0.8rem; }
+
+    .bullet-group { margin: 0.5rem 0 1rem; }
+    .bullet-row {
+      display: flex; align-items: flex-start; gap: 0.8rem;
+      font-size: 0.88rem; color: var(--charcoal); line-height: 1.75;
+      padding: 0.25rem 0;
+    }
+    .bullet-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--gold); flex-shrink: 0; margin-top: 0.55rem;
+    }
+    .bullet-row strong { color: var(--green); font-weight: 600; }
+
+    /* 상세 정보 카드 */
+    .info-card {
+      background: var(--white); border-radius: 2px; overflow: hidden;
+      box-shadow: 0 4px 24px rgba(28,63,47,0.07);
+    }
+    .info-card-header {
+      background: var(--green); padding: 1.4rem 1.8rem;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .info-card-icon { font-size: 1.5rem; line-height: 1; }
+    .info-card-label {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 1rem; font-weight: 500; color: var(--white);
+    }
+    .info-card-sub { font-size: 0.78rem; color: rgba(255,255,255,0.5); }
+    .info-card-body { padding: 1.4rem 1.8rem; }
+    .info-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 0.65rem 0;
+      border-bottom: 1px solid var(--stone-mid);
+      font-size: 0.86rem;
+      gap: 1rem;
+    }
+    .info-row:last-child { border-bottom: none; }
+    .info-key { color: var(--muted); flex-shrink: 0; }
+    .info-val { color: var(--charcoal); font-weight: 500; text-align: right; }
+
+    /* 협력 요청 태그 */
+    .coop-tags {
+      display: flex; flex-wrap: wrap; gap: 0.6rem;
+      margin-top: 1.2rem;
+    }
+    .coop-tag {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      font-size: 0.8rem; padding: 0.35rem 0.9rem;
+      border: 1px solid rgba(176,125,42,0.3);
+      color: var(--gold); border-radius: 2rem;
+      background: rgba(176,125,42,0.04);
+    }
+
+    /* 인용 블록 */
+    .quote-block {
+      margin-top: 2rem; padding: 1.6rem 2rem;
+      background: var(--green); border-radius: 2px;
+      position: relative;
+    }
+    .quote-block::before {
+      content: '"'; position: absolute; top: 0.6rem; left: 1.2rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4rem; color: rgba(201,152,64,0.2); line-height: 1;
+    }
+    .quote-text {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 0.92rem; font-weight: 300;
+      color: rgba(255,255,255,0.82); line-height: 2;
+      position: relative; z-index: 1;
+    }
+
+    /* ─────────────── SECTION 3 · 찬양 버스킹 ─────────────── */
+    .s-busking { background: var(--white); }
+
+    /* 시즌 배지 그리드 */
+    .season-grid {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 1rem; margin: 1.5rem 0;
+    }
+    @media (max-width: 600px) { .season-grid { grid-template-columns: 1fr; } }
+
+    .season-card {
+      background: var(--stone); border-radius: 2px;
+      padding: 1.2rem 1.4rem;
+      border-left: 3px solid var(--gold);
+    }
+    .season-label {
+      font-size: 0.72rem; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem;
+    }
+    .season-name {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 1rem; font-weight: 600; color: var(--green);
+    }
+    .season-desc { font-size: 0.82rem; color: var(--muted); margin-top: 0.3rem; line-height: 1.6; }
+
+    /* 이미지 3단 그리드 */
+    .img-trio {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 0.8rem; margin: 1.5rem 0;
+    }
+    @media (max-width: 600px) { .img-trio { grid-template-columns: 1fr; } }
+
+    /* ─────────────── SECTION 4 · 피스메이커 ─────────────── */
+    .s-peacemaker { background: var(--sage); }
+
+    .pm-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1rem; margin: 1rem 0;
+    }
+    @media (max-width: 640px) { .pm-grid { grid-template-columns: 1fr; } }
+
+    .pm-card {
+      background: var(--white); padding: 1.4rem 1.6rem;
+      border-radius: 2px; border-top: 3px solid var(--green);
+    }
+    .pm-card-icon { font-size: 1.4rem; margin-bottom: 0.6rem; display: block; }
+    .pm-card-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 0.95rem; font-weight: 600;
+      color: var(--green); margin-bottom: 0.4rem;
+    }
+    .pm-card-body { font-size: 0.83rem; color: var(--muted); line-height: 1.75; }
+
+    .activity-table {
+      width: 100%; border-collapse: collapse;
+      font-size: 0.86rem; margin: 0.8rem 0;
+    }
+    .activity-table th {
+      background: var(--green); color: rgba(255,255,255,0.8);
+      font-weight: 400; padding: 0.65rem 1rem;
+      text-align: left; font-size: 0.8rem; letter-spacing: 0.05em;
+    }
+    .activity-table td {
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid var(--stone-mid);
+      color: var(--charcoal); vertical-align: top;
+      line-height: 1.65;
+    }
+    .activity-table tr:last-child td { border-bottom: none; }
+    .activity-table tr:nth-child(even) td { background: var(--stone); }
+
+    /* ─────────────── SECTION 5 · 절기 예배 ─────────────── */
+    .s-festival { background: var(--stone); }
+
+    .festival-cards {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 1px; background: var(--stone-mid); border: 1px solid var(--stone-mid);
+      margin: 2rem 0;
+    }
+    @media (max-width: 640px) { .festival-cards { grid-template-columns: 1fr; } }
+
+    .festival-card {
+      background: var(--white);
+      padding: 1.8rem 1.5rem;
+      position: relative; overflow: hidden;
+    }
+    .festival-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    }
+    .festival-card.easter::before  { background: linear-gradient(90deg, #B07D2A, #C99840); }
+    .festival-card.thanks::before  { background: linear-gradient(90deg, #2B5C43, #3D7A5A); }
+    .festival-card.christmas::before { background: linear-gradient(90deg, #1C3F2F, #B07D2A); }
+    .festival-season {
+      font-size: 0.72rem; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    .festival-name {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 1.1rem; font-weight: 600; color: var(--green);
+      margin-bottom: 0.5rem;
+    }
+    .festival-body { font-size: 0.83rem; color: var(--muted); line-height: 1.75; }
+
+    /* 규모 배너 */
+    .scale-banner {
+      background: var(--green); padding: 2.4rem 3rem;
+      display: flex; gap: 3rem; align-items: center;
+      flex-wrap: wrap; border-radius: 2px; margin: 2rem 0;
+    }
+    .scale-banner-left { flex: 1; min-width: 220px; }
+    .scale-banner-tag {
+      font-size: 0.7rem; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--gold-lt); margin-bottom: 0.8rem;
+    }
+    .scale-banner-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 1.2rem; font-weight: 400; color: var(--white); line-height: 1.5;
+    }
+    .scale-banner-desc {
+      font-size: 0.84rem; color: rgba(255,255,255,0.55);
+      line-height: 1.8; margin-top: 0.8rem;
+    }
+    .scale-stats { display: flex; gap: 2.5rem; flex-wrap: wrap; }
+    .scale-stat { text-align: center; }
+    .scale-stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.6rem; font-weight: 300;
+      color: var(--gold-lt); line-height: 1;
+    }
+    .scale-stat-label {
+      font-size: 0.75rem; color: rgba(255,255,255,0.45);
+      letter-spacing: 0.06em; margin-top: 0.2rem;
+    }
+
+    /* ─────────────── SECTION 6 · 학생 격려 ─────────────── */
+    .s-encouragement { background: var(--white); }
+
+    .encourage-tabs {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 2rem; margin-top: 2.5rem;
+    }
+    @media (max-width: 640px) { .encourage-tabs { grid-template-columns: 1fr; } }
+
+    .et-panel {
+      background: var(--stone); border-radius: 2px; overflow: hidden;
+    }
+    .et-header {
+      background: var(--green-mid); padding: 1.2rem 1.6rem;
+      display: flex; align-items: center; gap: 0.8rem;
+    }
+    .et-icon { font-size: 1.4rem; line-height: 1; }
+    .et-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 0.98rem; font-weight: 600; color: var(--white);
+    }
+    .et-sub { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-top: 2px; }
+    .et-body { padding: 1.4rem 1.6rem; }
+
+    /* ─────────────── SECTION 7 · 연락처 ─────────────── */
+    .s-contact { background: var(--sage); }
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; margin-top: 3rem;
+    }
+    @media (max-width: 720px) { .contact-grid { grid-template-columns: 1fr; } }
+
+    .contact-block {
+      padding: 1.5rem; background: var(--white);
+      border-left: 3px solid var(--green); margin-bottom: 1rem;
+    }
+    .contact-block-label {
+      font-size: 0.72rem; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem;
+    }
+    .contact-block-val { font-size: 0.9rem; color: var(--charcoal); line-height: 1.7; }
+    .contact-block-val a { color: var(--green); text-decoration: none; }
+
+    .vision-block {
+      background: var(--green); padding: 2.4rem;
+      border-radius: 2px; margin-bottom: 2rem;
+    }
+    .vision-block-label {
+      font-size: 0.7rem; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--gold-lt); margin-bottom: 1rem;
+    }
+    .vision-text {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 1rem; font-weight: 300;
+      color: rgba(255,255,255,0.82); line-height: 2;
+    }
+    .vision-text strong { color: var(--gold-lt); font-weight: 500; }
+
+    /* ─────────────── FOOTER ─────────────── */
+    footer { background: var(--green); padding: 2.5rem; }
+    .footer-inner {
+      max-width: 1060px; margin: 0 auto;
+      display: flex; justify-content: space-between;
+      align-items: flex-start; flex-wrap: wrap; gap: 2rem;
+    }
+    .footer-brand { display: flex; align-items: center; gap: 0.9rem; }
+    .footer-cross { width: 18px; height: 18px; position: relative; }
+    .footer-cross::before, .footer-cross::after {
+      content: ''; position: absolute; background: var(--gold-lt);
+    }
+    .footer-cross::before { width: 2px; height: 100%; left: 50%; transform: translateX(-50%); }
+    .footer-cross::after  { height: 2px; width: 100%; top: 32%; }
+    .footer-name {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 0.95rem; color: rgba(255,255,255,0.8);
+    }
+    .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .footer-links a {
+      font-size: 0.8rem; color: rgba(255,255,255,0.4);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--gold-lt); }
+    .footer-copy {
+      width: 100%; font-size: 0.75rem;
+      color: rgba(255,255,255,0.25);
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      margin-top: 0.5rem;
+    }
+  </style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav>
+  <!-- ═══════════════════════════════════
+       NAV
+  ═══════════════════════════════════ -->
+<nav>
     <a href="#" class="nav-brand">
       <img src="https://raw.githubusercontent.com/ykh695-sudo/image/refs/heads/main/smlogo.png" alt="성문고등학교" 
      style="height: 36px; width: auto; object-fit: contain;" />
@@ -585,15 +692,22 @@
         <span class="nav-sub">Sungmoon High School Chaplaincy</span>
       </div>
     </a>
+
     <ul class="nav-links">
-      <li><a href="#ministries">사역</a></li>
+      <li><a href="#overview">사역 개요</a></li>
       <li><a href="#koinonia">코이노니아</a></li>
-      <li><a href="#education">종교교육</a></li>
-      <li><a href="#contact">문의</a></li>
+      <li><a href="#busking">찬양 버스킹</a></li>
+      <li><a href="#peacemaker">피스메이커</a></li>
+      <li><a href="#festival">절기 예배</a></li>
+      <li><a href="#encouragement">격려 사역</a></li>
+      <li><a href="#contact">연락처</a></li>
     </ul>
   </nav>
 
-  <!-- HERO -->
+
+  <!-- ═══════════════════════════════════
+       HERO · 표지
+  ═══════════════════════════════════ -->
   <section class="hero" id="home">
     <div class="hero-cross-bg"></div>
     <div class="hero-inner container">
@@ -613,6 +727,7 @@
           <a href="#contact" class="btn-ghost">교목실 문의하기</a>
         </div>
       </div>
+
 
       <div class="hero-right">
         <div class="notice-card">
@@ -662,232 +777,753 @@
     </div>
   </section>
 
-  <!-- MINISTRIES -->
-  <section class="ministries" id="ministries">
+
+  <!-- ═══════════════════════════════════
+       SECTION 1 · 사역 개요
+  ═══════════════════════════════════ -->
+  <section class="overview" id="overview">
     <div class="container">
       <div class="reveal">
-        <p class="sec-label">Our Ministries</p>
-        <h2 class="sec-title">교목실 주요 사역</h2>
-        <p class="sec-desc">신앙과 교육, 회복의 자리를 학교 공동체 안에 세워갑니다.</p>
+        <p class="sec-label">Ministry Overview</p>
+        <h2 class="sec-title">교목실 사역 개요</h2>
+        <p class="sec-desc">
+          성문고등학교 교목실은 지역 교회와 손잡고 다양한 방식으로 학원복음화를 실천합니다.<br>
+          각 사역을 클릭하여 자세한 내용을 확인하세요.
+        </p>
       </div>
-      <div class="min-grid reveal">
-        <div class="min-card">
-          <div class="min-icon">🕊</div>
-          <p class="min-name">교직원 예배</p>
-          <p class="min-body">많은 업무와 분주한 학교 생활 속에서 말씀과 찬양으로 공동체를 세워갑니다. </p>
-          <span class="min-tag">매주 진행</span>
-        </div>
-        <div class="min-card">
-          <div class="min-icon">📖</div>
-          <p class="min-name">종교 수업</p>
-          <p class="min-body">'종교와 미래 사회', '삶과 종교' 교과를 통해 종교적 세계관, 정체성, 삶의 의미를 탐구합니다.</p>
-          <span class="min-tag">정규 교과</span>
-        </div>
-        <div class="min-card">
-          <div class="min-icon">☕</div>
-          <p class="min-name">학생 코이노니아 모임</p>
-          <p class="min-body">매주 수요일 점심시간, 신앙을 나누고 서로를 돌보는 자발적 학생 모임입니다.</p>
-          <span class="min-tag">수요 점심</span>
-        </div>
-        <div class="min-card">
-          <div class="min-icon">🤝</div>
-          <p class="min-name">학급자치회 종교부장</p>
-          <p class="min-body">학급 종교부장이 각 학급의 평화와 돌봄을 이끕니다.</p>
-          <span class="min-tag">학급 마음지킴이</span>
-        </div>
-        <div class="min-card">
-          <div class="min-icon">💻</div>
-          <p class="min-name">AI·디지털 기독교 교육</p>
-          <p class="min-body">AI 시대에 맞는 종교·윤리적 성찰과 디지털 역량을 통합한 수업을 연구·실천합니다.</p>
-          <span class="min-tag">기독교 교육 연구</span>
-        </div>
-        <div class="min-card">
-          <div class="min-icon">🌿</div>
-          <p class="min-name">학생 상담·돌봄</p>
-          <p class="min-body">학업과 관계, 정체성의 고민을 안고 오는 학생들과 함께 이야기를 나눕니다.</p>
-          <span class="min-tag">상시 개방</span>
-        </div>
+      <div class="overview-grid reveal">
+
+        <a class="ov-card" href="#koinonia">
+          <div class="ov-num">01</div>
+          <span class="ov-icon">☕</span>
+          <div class="ov-name">수요 코이노니아</div>
+          <div class="ov-body">
+            매주 수요일 점심 12:50, 약 20분간 찬양·메시지·나눔으로 학생들의 마음을 돌봅니다.
+          </div>
+          <span class="ov-tag">매주 수요일</span>
+        </a>
+
+        <a class="ov-card" href="#busking">
+          <div class="ov-num">02</div>
+          <span class="ov-icon">🎸</span>
+          <div class="ov-name">찬양 버스킹</div>
+          <div class="ov-body">
+            연 2회 (봄·가을 시즌), 그리고 수시로 학교 마당에서 음악으로 복음을 자연스럽게 전하는 열린 공연입니다.
+          </div>
+          <span class="ov-tag">5월 · 10월, 좋은 날</span>
+        </a>
+
+        <a class="ov-card" href="#peacemaker">
+          <div class="ov-num">03</div>
+          <span class="ov-icon">🕊️</span>
+          <div class="ov-name">종교부장 활동</div>
+          <div class="ov-body">
+            1·2학년 각 학급 종교부장 20명을 '마음지기'로 세워 소외된 친구를 살피는 기독 리더십입니다.
+          </div>
+          <span class="ov-tag">20명 종교부장</span>
+        </a>
+
+        <a class="ov-card" href="#festival">
+          <div class="ov-num">04</div>
+          <span class="ov-icon">✝️</span>
+          <div class="ov-name">절기 예배</div>
+          <div class="ov-body">
+            부활절·추수감사절·성탄절, 전교생 500여명이 함께하는 복음 축제로 학원 복음화의 가장 큰 문입니다.
+          </div>
+          <span class="ov-tag">연 3회</span>
+        </a>
+
+        <a class="ov-card" href="#encouragement">
+          <div class="ov-num">05</div>
+          <span class="ov-icon">🍿</span>
+          <div class="ov-name">학생 격려 프로젝트</div>
+          <div class="ov-body">
+            지필평가·백합제 때 오픈 스낵바·포토존·버스킹으로 일상 속 복음 접점을 만듭니다.
+          </div>
+          <span class="ov-tag">찬양 · 격려 · 간식</span>
+        </a>
+
       </div>
     </div>
   </section>
 
-   <!-- KOINONIA -->
-  <section class="koinonia" id="koinonia">
+
+  <!-- ═══════════════════════════════════
+       SECTION 2 · 수요 코이노니아
+  ═══════════════════════════════════ -->
+  <section class="s-koinonia" id="koinonia">
     <div class="container">
-      <div class="koin-inner reveal">
-        <div class="koin-text">
-          <p class="sec-label">Student Fellowship</p>
-          <h2 class="sec-title">코이노니아 모임</h2>
-          <p class="sec-desc">
-            분주한 학교생활, 잠깐의 점심시간을 통해 하나님과 교제하며 서로를 격려합니다.
-            매주 수요일 점심시간, 함께 모여 예배하고 마음을 나누는 공동체입니다.
-          </p>
-          <div class="koin-bullets">
-            <div class="koin-bullet">
-              <div class="koin-dot"></div>
-              <p class="koin-bullet-text"><strong>기도 나눔</strong> — 익명 기도제목을 중심으로 서로를 위해 기도합니다</p>
+      <div class="reveal">
+        <p class="sec-label">Ministry 01 · Student Fellowship</p>
+        <h2 class="sec-title">수요학생 코이노니아 모임</h2>
+        <p class="sec-desc">학내 복음 브릿지 · 일상 속 영적 리프레시</p>
+      </div>
+
+      <div class="ministry-layout reveal">
+
+        <!-- 왼쪽: 설명 -->
+        <div class="ministry-text">
+
+          <!-- 사진 1 -->
+          <div class="img-slot img-slot-h200" style="margin-bottom:1.8rem;">
+            <!-- ✏️ 이미지 링크 추가: <img src="YOUR_IMAGE_URL" alt="코이노니아 모임 사진"> -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <span class="img-slot-note">코이노니아 모임 사진<br>src="" 에 이미지 링크 추가</span>
+          </div>
+
+          <div class="sub-heading">가. 모임 취지</div>
+          <div class="bullet-group">
+            <div class="bullet-row">
+              <div class="bullet-dot"></div>
+              <span><strong>학내 복음 브릿지</strong> — 신앙이 없는 학생들에게는 복음을 만나는 첫 관문이 되고, 기독 학생들에게는 믿음의 동역자를 만나는 연결 고리가 됩니다.</span>
             </div>
-            <div class="koin-bullet">
-              <div class="koin-dot"></div>
-              <p class="koin-bullet-text"><strong>말씀 묵상</strong> — 짧은 본문으로 삶을 나누는 소그룹 나눔</p>
+            <div class="bullet-row">
+              <div class="bullet-dot"></div>
+              <span><strong>일상 속 영적 리프레시</strong> — 학업 위주의 학교 현장에서 예수님의 사랑을 기반으로 한 소통을 통해 아이들의 마음을 돌보고 건강한 자존감을 세워갑니다.</span>
             </div>
-            <div class="koin-bullet">
-              <div class="koin-dot"></div>
-              <p class="koin-bullet-text"><strong>열린 공간</strong> — 누구든지 올 수 있는 따뜻한 쉼과 만남의 자리</p>
-            </div>
-            <div class="koin-bullet">
-              <div class="koin-dot"></div>
-              <p class="koin-bullet-text"><strong>자발적 참여</strong> — 강요 없이, 자유롭게 찾아오는 공동체</p>
-            </div>
+          </div>
+
+          <div class="quote-block">
+            <p class="quote-text">
+              "성문고 학생들의 점심시간, 따뜻한 간식과 사랑의 만남이<br>
+              복음의 마중물이 됩니다."
+            </p>
           </div>
         </div>
 
+        <!-- 오른쪽: 정보 카드 -->
         <div>
-          <div class="koin-card">
-            <div class="koin-card-header">
-              <span class="koin-card-icon">☕</span>
+          <div class="info-card">
+            <div class="info-card-header">
+              <span class="info-card-icon">☕</span>
               <div>
-                <p class="koin-card-label">수요 코이노니아</p>
-                <p class="koin-card-sub">Wednesday Koinonia Fellowship</p>
+                <div class="info-card-label">수요 코이노니아</div>
+                <div class="info-card-sub">Wednesday Koinonia Fellowship</div>
               </div>
             </div>
-            <div class="koin-card-body">
-              <div class="koin-detail-row">
-                <span class="koin-detail-key">시간</span>
-                <span class="koin-detail-val">매주 수요일 점심시간</span>
+            <div class="info-card-body">
+              <div class="info-row">
+                <span class="info-key">일시</span>
+                <span class="info-val">매주 수요일 12:50 – 13:10</span>
               </div>
-              <div class="koin-detail-row">
-                <span class="koin-detail-key">장소</span>
-                <span class="koin-detail-val">예배실(소강당)</span>
+              <div class="info-row">
+                <span class="info-key">소요</span>
+                <span class="info-val">약 20분</span>
               </div>
-              <div class="koin-detail-row">
-                <span class="koin-detail-key">대상</span>
-                <span class="koin-detail-val">참여를 원하는 모든 학생</span>
+              <div class="info-row">
+                <span class="info-key">장소</span>
+                <span class="info-val">예배실(소강당)</span>
               </div>
-              <div class="koin-detail-row">
-                <span class="koin-detail-key">내용</span>
-                <span class="koin-detail-val">찬양, 기도, 말씀 나눔</span>
+              <div class="info-row">
+                <span class="info-key">대상</span>
+                <span class="info-val">참여를 원하는 모든 학생</span>
               </div>
-              <div class="koin-detail-row">
-                <span class="koin-detail-key">시작</span>
-                <span class="koin-detail-val">2026년 4월부터</span>
+              <div class="info-row">
+                <span class="info-key">평균 인원</span>
+                <span class="info-val">약 20-30여 명</span>
+              </div>
+              <div class="info-row">
+                <span class="info-key">주요 내용</span>
+                <span class="info-val">찬양, 메시지 선포, 마음 나눔</span>
+              </div>
+              <div class="info-row">
+                <span class="info-key">비운영</span>
+                <span class="info-val">지필평가·교내 행사 시</span>
               </div>
             </div>
           </div>
+
+          <!-- 사진 2 -->
+          <div class="img-slot img-slot-h200" style="margin-top:1.2rem;">
+            <!-- ✏️ 이미지 링크 추가: <img src="YOUR_IMAGE_URL" alt="코이노니아 현장 사진"> -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <span class="img-slot-note">현장 사진 2<br>src="" 에 이미지 링크 추가</span>
+          </div>
         </div>
+
       </div>
     </div>
   </section>
 
-  <!-- AI EDUCATION -->
-  <section class="aiedu" id="education">
+
+  <!-- ═══════════════════════════════════
+       SECTION 3 · 찬양 버스킹
+  ═══════════════════════════════════ -->
+  <section class="s-busking" id="busking">
     <div class="container">
       <div class="reveal">
-        <p class="sec-label">Religious Education &amp; Research</p>
-        <h2 class="sec-title">종교 교육 · 연구</h2>
-        <p class="sec-desc">종교와 미래 사회 교과를 중심으로, AI 시대에 맞는 새로운 종교교육을 연구·실천합니다.</p>
+        <p class="sec-label">Ministry 02 · Praise Busking</p>
+        <h2 class="sec-title">찬양 버스킹</h2>
+        <p class="sec-desc">자유로운 복음 접점 · 일상 속 위로</p>
+      </div>
 
-        <div class="ai-banner">
-          <div class="ai-banner-left">
-            <p class="ai-banner-tag">기독교 교육 연구</p>
-            <h3 class="ai-banner-title">
-              AI · 디지털 역량 함양<br>교육 연구 모임
-            </h3>
-            <p class="ai-banner-desc">
-              종교 교과와 AI 도구를 융합한 수업을 설계하고,
-              학생들이 디지털 환경 속에서도 깊이 사고하고
-              의미를 발견할 수 있도록 교육 방법을 탐구합니다.
-            </p>
-            <div class="ai-chips">
-              <span class="ai-chip active">AI 윤리 수업</span>
-              <span class="ai-chip active">공개수업 설계</span>
-              <span class="ai-chip">세계관 탐구</span>
-              <span class="ai-chip">디지털 인문학</span>
+      <!-- 사진 3장 -->
+      <div class="img-trio reveal" style="margin-top:2rem;">
+        <div class="img-slot img-slot-h200">
+          <!-- ✏️ <img src="YOUR_IMAGE_URL" alt="봄 버스킹"> -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <span class="img-slot-note">봄 시즌 버스킹</span>
+        </div>
+        <div class="img-slot img-slot-h200">
+          <!-- ✏️ <img src="YOUR_IMAGE_URL" alt="가을 버스킹"> -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <span class="img-slot-note">가을 시즌 버스킹</span>
+        </div>
+        <div class="img-slot img-slot-h200">
+          <!-- ✏️ <img src="YOUR_IMAGE_URL" alt="소규모 버스킹"> -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <span class="img-slot-note">소규모 버스킹</span>
+        </div>
+      </div>
+
+      <div class="ministry-layout reveal">
+
+        <!-- 왼쪽: 설명 -->
+        <div class="ministry-text">
+
+          <div class="sub-heading">가. 사역 취지</div>
+          <div class="bullet-group">
+            <div class="bullet-row">
+              <div class="bullet-dot"></div>
+              <span><strong>자유로운 복음 접점</strong> — 학생들이 오고 가는 개방된 공간에서 음악이라는 언어를 통해 자연스럽게 복음을 전합니다.</span>
+            </div>
+            <div class="bullet-row">
+              <div class="bullet-dot"></div>
+              <span><strong>일상 속 위로</strong> — 정형화된 예배의 틀을 넘어, 우연한 만남 속에서 학생들의 닫힌 마음을 열고 하나님의 사랑을 흘려보냅니다.</span>
             </div>
           </div>
-          <div class="ai-banner-right">
-            <div class="ai-stat">
-              <div class="ai-stat-num">2</div>
-              <div class="ai-stat-label">학년 수업 운영</div>
+
+          <div class="sub-heading">나. 사역 개요</div>
+          <div class="season-grid">
+            <div class="season-card">
+              <div class="season-label">봄 시즌</div>
+              <div class="season-name">5월</div>
+              <div class="season-desc">기상 상황에 맞춰 학교 마당 야외 공연</div>
             </div>
-            <div class="ai-stat">
-              <div class="ai-stat-num">現</div>
-              <div class="ai-stat-label">AI 융합 수업 연구 중</div>
+            <div class="season-card">
+              <div class="season-label">가을 시즌</div>
+              <div class="season-name">10월</div>
+              <div class="season-desc">학업과 입시에 지친 학생들 격려·응원</div>
+            </div>
+            <div class="season-card">
+              <div class="season-label">소규모 버스킹</div>
+              <div class="season-name">수시</div>
+              <div class="season-desc">자유로운 열린 공간 복음 소통의 시간</div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- CONTACT -->
-  <section class="contact" id="contact">
-    <div class="container">
-      <div class="reveal">
-        <p class="sec-label">Contact</p>
-        <h2 class="sec-title">교목실 문의</h2>
-        <p class="sec-desc">학생, 학부모, 교직원 누구든지 편하게 연락 주세요.</p>
-      </div>
-      <div class="contact-grid reveal">
+        <!-- 오른쪽: 정보 카드 -->
         <div>
+          <div class="info-card">
+            <div class="info-card-header">
+              <span class="info-card-icon">🎤</span>
+              <div>
+                <div class="info-card-label">찬양 버스킹</div>
+                <div class="info-card-sub">Open Praise Busking</div>
+              </div>
+            </div>
+            <div class="info-card-body">
+              <div class="info-row">
+                <span class="info-key">횟수</span>
+                <span class="info-val">연 2회 (봄·가을) 및 수시</span>
+              </div>
+              <div class="info-row">
+                <span class="info-key">봄 · 가을 시즌</span>
+                <span class="info-val">5월, 10월</span>
+              </div>
+              <div class="info-row">
+                <span class="info-key">수시로</span>
+                <span class="info-val">매주 목요일 좋은 날</span>
+              </div>
+              <div class="info-row">
+                <span class="info-key">장소</span>
+                <span class="info-val">교내 곳곳에서(야외)</span>
+              </div>
+              <div class="info-row">
+                <span class="info-key">형식</span>
+                <span class="info-val">누구나 자유롭게 청취</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="quote-block" style="margin-top:1.2rem;">
+            <p class="quote-text">
+              "학교 마당에 울려 퍼지는 찬양이, 아이들의 무너진 마음을 <br>
+              세우는 복된 노래가 되길 소망합니다."
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════
+       SECTION 4 · 피스메이커 (종교 부장단)
+  ═══════════════════════════════════ -->
+  <section class="s-peacemaker" id="peacemaker">
+    <div class="container">
+      <div class="reveal">
+        <p class="sec-label">Ministry 03 · Student Leadership</p>
+        <h2 class="sec-title">종교 부장단 — 피스메이커</h2>
+        <p class="sec-desc">"우리 반을 살리는 따뜻한 손길, 피스메이커"</p>
+      </div>
+
+      <!-- 사진 3장 -->
+      <div class="img-trio reveal" style="margin-top:2rem;">
+        <div class="img-slot img-slot-h200">
+          <!-- ✏️ <img src="YOUR_IMAGE_URL" alt="리더십 교육"> -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <span class="img-slot-note">리더십 교육</span>
+        </div>
+        <div class="img-slot img-slot-h200">
+          <!-- ✏️ <img src="YOUR_IMAGE_URL" alt="나눔 활동"> -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <span class="img-slot-note">나눔 활동</span>
+        </div>
+        <div class="img-slot img-slot-h200">
+          <!-- ✏️ <img src="YOUR_IMAGE_URL" alt="현장 사진"> -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <span class="img-slot-note">나눔 현장</span>
+        </div>
+      </div>
+
+      <div class="ministry-layout reveal">
+
+        <!-- 왼쪽: 설명 -->
+        <div class="ministry-text">
+          <div class="sub-heading">가. 운영 취지</div>
+          <div class="bullet-group">
+            <div class="bullet-row">
+              <div class="bullet-dot"></div>
+              <span><strong>학급 내 영적 파수꾼</strong> — 종교 부장을 각 학급 '마음지기'로 세워 소외된 친구를 살피는 기독교 가치의 학급 환경 구성 및 기독 리더십 양성.</span>
+            </div>
+            <div class="bullet-row">
+              <div class="bullet-dot"></div>
+              <span><strong>정서적 안전망</strong> — 교사가 발견하기 어려운 위기 학생을 종교부장을 통해 조기에 발견하고 지원.</span>
+            </div>
+            <div class="bullet-row">
+              <div class="bullet-dot"></div>
+              <span><strong>축복의 통로</strong> — 지역 교회 후원을 학급에 전달하여 기독교에 대한 긍정적 이미지 확산.</span>
+            </div>
+          </div>
+
+          <div class="sub-heading">나. 세부 활동 계획</div>
+          <table class="activity-table">
+            <tr>
+              <th>활동</th>
+              <th>내용</th>
+            </tr>
+            <tr>
+              <td>1:1 관찰 보고</td>
+              <td>고립·도움이 필요한 친구를 조용히 교목실과 공유</td>
+            </tr>
+            <tr>
+              <td>학급 이벤트</td>
+              <td>후원 물품을 종교부장 이름으로 전달</td>
+            </tr>
+            <tr>
+              <td>포상</td>
+              <td>학기말 우수 활동자 장학금·선물 증정</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- 오른쪽: 정보 카드 -->
+        <div>
+          <div class="info-card">
+            <div class="info-card-header">
+              <span class="info-card-icon">🕊️</span>
+              <div>
+                <div class="info-card-label">피스메이커 종교부장단</div>
+                <div class="info-card-sub">Peacemaker Leadership Program</div>
+              </div>
+            </div>
+            <div class="info-card-body">
+              <div class="info-row">
+                <span class="info-key">대상</span>
+                <span class="info-val">1·2학년 각 학급 종교부장</span>
+              </div>
+              <div class="info-row">
+                <span class="info-key">총 인원</span>
+                <span class="info-val">20명</span>
+              </div>
+              <div class="info-row">
+                <span class="info-key">슬로건</span>
+                <span class="info-val">우리 반을 살리는 따뜻한 손길</span>
+              </div>
+              <div class="info-row">
+                <span class="info-key">소통 창구</span>
+                <span class="info-val">교목–종교부장 1:1 문자 소통</span>
+              </div>
+             </div>
+          </div>
+
+          <div class="quote-block" style="margin-top:1.2rem;">
+            <p class="quote-text">
+              "지역 교회와 손잡고 20명의 종교부장을 학급의 '마음지기'로 <br>
+               세워, 소외된 친구를 살피고 학교에 따뜻한 사랑을 흘려보내는<br>
+              행복한 동행입니다."
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════
+       SECTION 5 · 절기 예배
+  ═══════════════════════════════════ -->
+  <section class="s-festival" id="festival">
+    <div class="container">
+      <div class="reveal">
+        <p class="sec-label">Ministry 04 · Seasonal Worship</p>
+        <h2 class="sec-title">절기 예배</h2>
+        <p class="sec-desc">부활절 · 추수감사절 · 성탄절 — 학원 복음화의 가장 큰 문</p>
+      </div>
+
+      <!-- 절기 카드 3개 -->
+      <div class="festival-cards reveal">
+        <div class="festival-card easter">
+          <!-- ✏️ <img src="YOUR_IMAGE_URL" alt="부활절 예배"> -->
+          <div class="img-slot img-slot-h200" style="margin-bottom:1.2rem;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <span class="img-slot-note">부활절 예배 사진</span>
+          </div>
+          <div class="festival-season">Easter</div>
+          <div class="festival-name">부활절 예배</div>
+          <div class="festival-body">봄, 부활의 기쁨과 소망의 메시지를 전교생과 함께 경험합니다.</div>
+        </div>
+        <div class="festival-card thanks">
+          <div class="img-slot img-slot-h200" style="margin-bottom:1.2rem;">
+            <!-- ✏️ <img src="YOUR_IMAGE_URL" alt="추수감사절 예배"> -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <span class="img-slot-note">추수감사절 예배 사진</span>
+          </div>
+          <div class="festival-season">Thanksgiving</div>
+          <div class="festival-name">추수감사절 예배</div>
+          <div class="festival-body">가을, 감사와 나눔의 가치를 학생들과 함께 실천합니다.</div>
+        </div>
+        <div class="festival-card christmas">
+          <div class="img-slot img-slot-h200" style="margin-bottom:1.2rem;">
+            <!-- ✏️ <img src="YOUR_IMAGE_URL" alt="성탄절 예배"> -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <span class="img-slot-note">성탄절 예배 사진</span>
+          </div>
+          <div class="festival-season">Christmas</div>
+          <div class="festival-name">성탄절 예배</div>
+          <div class="festival-body">겨울, 더 많은 시간을 활용한 풍성한 복음 축제를 엽니다.</div>
+        </div>
+      </div>
+
+      <!-- 규모 배너 -->
+      <div class="scale-banner reveal">
+        <div class="scale-banner-left">
+          <p class="scale-banner-tag">행사 규모 및 협력 비전</p>
+          <h3 class="scale-banner-title">500명이 함께하는<br>복음 축제</h3>
+          <p class="scale-banner-desc">
+            학교 현장에서의 절기예배는 단순한 종교 행사를 넘어, 전교생이
+            기독교의 핵심 가치인 믿음·소망·사랑을 실제적으로 경험하는
+            '학원 복음화의 가장 큰 문'입니다.
+          </p>
+          <div class="coop-tags" style="margin-top:1.5rem;">
+            <span class="coop-tag">🎁 간식·선물·장학금</span>
+            <span class="coop-tag">🎸 밴드·댄스팀</span>
+            <span class="coop-tag">🎬 미디어·영상</span>
+            <span class="coop-tag">💡 조명 장비</span>
+            <span class="coop-tag">🙏 중보기도</span>
+          </div>
+        </div>
+        <div class="scale-stats">
+          <div class="scale-stat">
+            <div class="scale-stat-num">500</div>
+            <div class="scale-stat-label">전교생 참여 인원</div>
+          </div>
+          <div class="scale-stat">
+            <div class="scale-stat-num">3</div>
+            <div class="scale-stat-label">연간 절기 예배</div>
+          </div>
+          <div class="scale-stat">
+            <div class="scale-stat-num">40<span style="font-size:1.2rem">분</span></div>
+            <div class="scale-stat-label">평균 예배 시간</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div class="ministry-layout" style="margin-top:2.5rem;">
+          <div class="ministry-text">
+            <div class="sub-heading">가. 운영 취지</div>
+            <div class="bullet-group">
+              <div class="bullet-row">
+                <div class="bullet-dot"></div>
+                <span><strong>문화적 접점 마련</strong> — 비기독교 학생들에게도 거부감 없는 기독교 문화를 선사하여 복음에 대한 정서적 문턱을 낮춥니다.</span>
+              </div>
+              <div class="bullet-row">
+                <div class="bullet-dot"></div>
+                <span><strong>정서적 위로와 격려</strong> — 학업에 지친 학생들에게 절기가 주는 기쁨과 위로를 전달하여 학교생활의 활력을 불어넣습니다.</span>
+              </div>
+              <div class="bullet-row">
+                <div class="bullet-dot"></div>
+                <span><strong>나눔의 가치 실천</strong> — 지역 교회와 학교가 하나 되어 학생들을 축복하는 모델을 제시합니다.</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="quote-block">
+              <p class="quote-text">
+                "1·2학년 모든 학생이 지역 교회와 함께<br>
+                기독교 절기의 기쁨을 맛보며, 사랑과 희망의<br>
+                메시지를 강렬하게 경험하는 복음 축제입니다."
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════
+       SECTION 6 · 학생 격려 및 응원 프로젝트
+  ═══════════════════════════════════ -->
+  <section class="s-encouragement" id="encouragement">
+    <div class="container">
+      <div class="reveal">
+        <p class="sec-label">Ministry 05 · Student Encouragement</p>
+        <h2 class="sec-title">학생 격려 및 응원 프로젝트</h2>
+        <p class="sec-desc">공감과 위로 · 친밀한 복음 접점 · 일상의 축복</p>
+      </div>
+
+      <!-- 두 프로그램 패널 -->
+      <div class="encourage-tabs reveal" style="margin-top:2rem;">
+
+        <!-- 지필평가 격려 -->
+        <div class="et-panel">
+          <div class="et-header">
+            <span class="et-icon">📝</span>
+            <div>
+              <div class="et-title">지필평가 격려 사역</div>
+              <div class="et-sub">시험 끝날 때마다 학생들을 응원합니다</div>
+            </div>
+          </div>
+          <div class="et-body">
+            <!-- 사진 -->
+            <div class="img-slot img-slot-h200" style="margin-bottom:1.2rem;">
+              <!-- ✏️ <img src="YOUR_IMAGE_URL" alt="지필평가 격려"> -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+              <span class="img-slot-note">지필평가 격려 현장 사진</span>
+            </div>
+            <div class="info-row">
+              <span class="info-key">일시</span>
+              <span class="info-val">연 4회 (중간·기말 마지막 날)</span>
+            </div>
+            <div class="info-row">
+              <span class="info-key">장소</span>
+              <span class="info-val">학교 정문 및 등하교길</span>
+            </div>
+            <div style="height:0.8rem;"></div>
+            <div class="sub-heading" style="margin-top:1rem;">프로그램</div>
+            <div class="bullet-group">
+              <div class="bullet-row"><div class="bullet-dot"></div><span>응원 버스킹 — 축복 찬양과 응원가 연주</span></div>
+              <div class="bullet-row"><div class="bullet-dot"></div><span>오픈 스낵바 — 팝콘·솜사탕·아이스크림 제공</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 백합제 응원 -->
+        <div class="et-panel">
+          <div class="et-header">
+            <span class="et-icon">🌸</span>
+            <div>
+              <div class="et-title">백합제 응원 사역</div>
+              <div class="et-sub">학교 축제에서 복음의 따뜻함을 나눕니다</div>
+            </div>
+          </div>
+          <div class="et-body">
+            <!-- 사진 -->
+            <div class="img-slot img-slot-h200" style="margin-bottom:1.2rem;">
+              <!-- ✏️ <img src="YOUR_IMAGE_URL" alt="백합제 응원"> -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+              <span class="img-slot-note">백합제 응원 현장 사진</span>
+            </div>
+            <div class="info-row">
+              <span class="info-key">일시</span>
+              <span class="info-val">매년 9월 백합제 기간</span>
+            </div>
+            <div class="info-row">
+              <span class="info-key">장소</span>
+              <span class="info-val">운동장 또는 교내 야외</span>
+            </div>
+            <div style="height:0.8rem;"></div>
+            <div class="sub-heading" style="margin-top:1rem;">프로그램</div>
+            <div class="bullet-group">
+              <div class="bullet-row"><div class="bullet-dot"></div><span>시즌 간식 부스 — 슬러시(여름) / 붕어빵·어묵(가을)</span></div>
+              <div class="bullet-row"><div class="bullet-dot"></div><span>복음 게임 존 — 종교부장들과 함께하는 레크리에이션</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 협력 포인트 + 전략 -->
+      <div class="ministry-layout reveal" style="margin-top:2.5rem;">
+        <div>
+          <div class="sub-heading">다. 지역 교회 협력 포인트</div>
+          <div class="pm-grid">
+            <div class="pm-card">
+              <span class="pm-card-icon">🍿</span>
+              <div class="pm-card-title">물적 지원</div>
+              <div class="pm-card-body">간식 재료, 팝콘기 등 기계 지원</div>
+            </div>
+            <div class="pm-card">
+              <span class="pm-card-icon">🙋</span>
+              <div class="pm-card-title">인적 지원</div>
+              <div class="pm-card-body">간식 조리·배부 봉사, 버스킹팀 파견</div>
+            </div>
+            <div class="pm-card">
+              <span class="pm-card-icon">🎮</span>
+              <div class="pm-card-title">콘텐츠 지원</div>
+              <div class="pm-card-body">학생 미니 게임 콘텐츠 및 행사 보조</div>
+            </div>
+            <div class="pm-card">
+              <span class="pm-card-icon">🎵</span>
+              <div class="pm-card-title">응원 버스킹</div>
+              <div class="pm-card-body">찬양팀 파견 및 응원가 연주 참여</div>
+            </div>
+          </div>
+          <div class="coop-tags" style="margin-top:1.2rem;">
+            <span class="coop-tag">🍿 스낵바 운영</span>
+            <span class="coop-tag">🎵 응원 버스킹</span>
+            <span class="coop-tag">✋ 하이파이브 피켓</span>
+            <span class="coop-tag">📸 포토존</span>
+            <span class="coop-tag">🎮 복음 게임 존</span>
+          </div>
+        </div>
+        <div>
+          <div class="quote-block">
+            <p class="quote-text">
+              "시험 끝의 해방감과 축제의 즐거움 속에<br>
+              교회의 따뜻한 간식과 찬양을 더해,<br>
+              학생들이 일상에서 하나님의 사랑을<br>
+              가장 맛있고 기쁘게 경험하게 하는<br>
+              응원 사역입니다."
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════
+       SECTION 7 · 맺음말 & 연락처
+  ═══════════════════════════════════ -->
+  <section class="s-contact" id="contact">
+    <div class="container">
+      <div class="reveal">
+        <p class="sec-label">Closing · Vision · Contact</p>
+        <h2 class="sec-title">함께 만들어가는 복음의 여정</h2>
+        <p class="sec-desc">성문고등학교 교목실 · 지역 교회 협력 안내</p>
+      </div>
+
+      <div class="contact-grid reveal">
+
+        <!-- 왼쪽: 비전 + 연락처 -->
+        <div>
+          <div class="vision-block">
+            <p class="vision-block-label">Vision Statement</p>
+            <p class="vision-text">
+              "우리의 만남이 단순히 사업의 협력을 넘어,
+              학교 현장을 향한 <strong>하나님의 마음을 함께 읽어가는
+              시간</strong>이 되기를 소망합니다."
+            </p>
+          </div>
+
           <div class="contact-block">
-            <p class="contact-block-label">위치</p>
+            <p class="contact-block-label">교목실장</p>
             <p class="contact-block-val">
-              성문고등학교 교목실 · 종교인성부<br>
-              경기도 안양시 만안구 성문길 1, 성문고등학교
+              정성구<br>
+              <a href="tel:010-6337-9651">010-6337-9651</a>
             </p>
           </div>
           <div class="contact-block">
-            <p class="contact-block-label">운영 시간</p>
+            <p class="contact-block-label">교목</p>
             <p class="contact-block-val">
-              월–금 08:30 – 16:00<br>
-              <span style="color:var(--muted);font-size:0.82rem">종종 부재중일 때가 있어요</span>
+              육근호<br>
+              <a href="tel:010-3315-1836">010-3315-1836</a>
             </p>
           </div>
           <div class="contact-block">
             <p class="contact-block-label">이메일</p>
             <p class="contact-block-val">
-              <a href="mailto:your@email.com" style="color:var(--green);text-decoration:none">
-                ykh695@gmail.com
-              </a>
+              <a href="mailto:ykh695@gmail.com">ykh695@gmail.com</a>
             </p>
           </div>
           <div class="contact-block">
-            <p class="contact-block-label">안내</p>
-            <p class="contact-block-val" style="font-size:0.84rem;color:var(--muted)">
-              고민이 있거나 이야기가 필요한 학생은<br>
-              언제든지 교목실 문을 두드려도 좋습니다.
+            <p class="contact-block-label">주소</p>
+            <p class="contact-block-val">
+              경기도 안양시 만안구 성문길 1<br>
+              성문고등학교 교목실
             </p>
           </div>
         </div>
 
+        <!-- 오른쪽: 협력 메시지 -->
         <div>
-          <div class="form-field">
-            <input type="text" placeholder="이름 (학생 / 학부모 / 교직원)" />
+          <div class="sub-heading" style="margin-top:0;">새로운 가능성을 함께</div>
+          <p class="body-text">
+            성문고등학교라는 선교지에서 한 영혼을 주님께 안내하는 길은 정해진 답이 있는 것이 아니라,
+            우리가 함께 고민하고 기도하며 만들어가는 여정이라 믿습니다.
+          </p>
+          <p class="body-text">
+            절기예배나 종교부장단 운영 외에도, 학교의 상황과 교회의 자원이 만나 일으킬 수 있는
+            새롭고 반짝이는 복음화의 아이디어들을 함께 나누고 싶습니다.
+          </p>
+          <p class="body-text">
+            현장의 목소리와 교회의 열정이 어우러져 더 효과적이고 본질적인 복음화의 길을 낼 수 있도록,
+            목사님들의 귀한 지혜와 비전을 공유해 주십시오.
+          </p>
+
+          <div style="margin-top:1.5rem;">
+            <div class="sub-heading">협력 문의</div>
+            <div class="pm-grid">
+              <div class="pm-card">
+                <span class="pm-card-icon">📞</span>
+                <div class="pm-card-title">전화 상담</div>
+                <div class="pm-card-body">교목실로 전화 주시면 협력 방법을 함께 상의합니다.</div>
+              </div>
+              <div class="pm-card">
+                <span class="pm-card-icon">✉️</span>
+                <div class="pm-card-title">이메일 문의</div>
+                <div class="pm-card-body">ykh695@gmail.com으로 후원·협력 내용을 보내주세요.</div>
+              </div>
+              <div class="pm-card">
+                <span class="pm-card-icon">🏫</span>
+                <div class="pm-card-title">방문 교류</div>
+                <div class="pm-card-body">학교를 방문하여 현장을 직접 경험해 보시는 것을 환영합니다.</div>
+              </div>
+              <div class="pm-card">
+                <span class="pm-card-icon">🙏</span>
+                <div class="pm-card-title">중보기도</div>
+                <div class="pm-card-body">성문고 학생들과 사역을 위한 기도 동역을 부탁드립니다.</div>
+              </div>
+            </div>
           </div>
-          <div class="form-field">
-            <select>
-              <option value="" disabled selected>문의 유형 선택</option>
-              <option>채플 관련 문의</option>
-              <option>코이노니아 참여 문의</option>
-              <option>종교 수업 관련</option>
-              <option>상담 요청</option>
-              <option>기타 문의</option>
-            </select>
-          </div>
-          <div class="form-field">
-            <input type="email" placeholder="이메일 (선택)" />
-          </div>
-          <div class="form-field">
-            <textarea placeholder="문의 내용을 남겨주세요."></textarea>
-          </div>
-          <button class="btn-send" type="button">보내기 →</button>
         </div>
+
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
+
+  <!-- ═══════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════ -->
   <footer>
     <div class="footer-inner">
       <div class="footer-brand">
@@ -895,18 +1531,24 @@
         <span class="footer-name">성문고등학교 교목실</span>
       </div>
       <div class="footer-links">
-        <a href="#ministries">사역</a>
-        <a href="#chapel">채플</a>
+        <a href="#overview">사역 개요</a>
         <a href="#koinonia">코이노니아</a>
-        <a href="#education">종교교육</a>
-        <a href="#contact">문의</a>
+        <a href="#busking">찬양 버스킹</a>
+        <a href="#peacemaker">피스메이커</a>
+        <a href="#festival">절기 예배</a>
+        <a href="#encouragement">격려 사역</a>
+        <a href="#contact">연락처</a>
       </div>
       <p class="footer-copy">
-        © 2025 성문고등학교 교목실 · Sungmoon High School Chaplaincy Office
+        © 2025 성문고등학교 교목실 · Sungmoon High School Chaplaincy · 학원복음화 사역 안내
       </p>
     </div>
   </footer>
 
+
+  <!-- ═══════════════════════════════════
+       SCROLL REVEAL SCRIPT
+  ═══════════════════════════════════ -->
   <script>
     const reveals = document.querySelectorAll('.reveal');
     const obs = new IntersectionObserver(entries => {
@@ -916,8 +1558,9 @@
           obs.unobserve(e.target);
         }
       });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.08 });
     reveals.forEach(el => obs.observe(el));
   </script>
+
 </body>
 </html>
