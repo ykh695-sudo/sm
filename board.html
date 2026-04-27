@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>게시판 · 성문고등학교 교목실</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green:      #1C3F2F;
+      --green-mid:  #2B5C43;
+      --green-soft: #3D7A5A;
+      --sage:       #E8F0EB;
+      --sage-dark:  #D0E0D5;
+      --gold:       #B07D2A;
+      --gold-lt:    #C99840;
+      --stone:      #F6F3EE;
+      --stone-mid:  #EDE8DF;
+      --charcoal:   #2E2A25;
+      --muted:      #6B6460;
+      --white:      #FFFFFF;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--stone);
+      color: var(--charcoal);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 2.5rem;
+      background: rgba(28,63,47,0.97);
+      backdrop-filter: blur(8px);
+    }
+    .nav-brand { display: flex; align-items: center; gap: 0.9rem; text-decoration: none; }
+    .nav-name { font-family: 'Noto Serif KR', serif; font-size: 0.95rem; font-weight: 500; color: rgba(255,255,255,0.92); letter-spacing: 0.04em; }
+    .nav-sub { font-size: 0.7rem; color: rgba(255,255,255,0.4); letter-spacing: 0.05em; display: block; margin-top: 1px; }
+    .nav-links { display: flex; gap: 1.8rem; list-style: none; }
+    .nav-links a { font-size: 0.82rem; color: rgba(255,255,255,0.6); text-decoration: none; letter-spacing: 0.06em; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--gold-lt); }
+    .nav-links a.active { color: var(--gold-lt); }
+    @media (max-width: 600px) { nav { padding: 0.9rem 1.2rem; } .nav-links { display: none; } }
+
+    /* PAGE HEADER */
+    .page-header {
+      background: var(--green);
+      padding: 7rem 2.5rem 3.5rem;
+      position: relative; overflow: hidden;
+    }
+    .page-header::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        repeating-linear-gradient(90deg, rgba(255,255,255,0.018) 0, rgba(255,255,255,0.018) 1px, transparent 1px, transparent 60px),
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.018) 0, rgba(255,255,255,0.018) 1px, transparent 1px, transparent 60px);
+      pointer-events: none;
+    }
+    .page-header .container { max-width: 1060px; margin: 0 auto; position: relative; }
+    .page-eyebrow { font-size: 0.74rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold-lt); margin-bottom: 0.8rem; }
+    .page-title { font-family: 'Noto Serif KR', serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 300; color: var(--white); line-height: 1.3; }
+    .page-title strong { font-weight: 600; }
+    .page-desc { font-size: 0.9rem; color: rgba(255,255,255,0.5); margin-top: 0.8rem; }
+
+    /* MAIN */
+    .board-wrap { max-width: 860px; margin: 0 auto; padding: 3rem 2rem 5rem; }
+
+    /* 글쓰기 폼 */
+    .write-section { margin-bottom: 2.5rem; }
+    .write-toggle {
+      display: flex; align-items: center; justify-content: space-between;
+      background: var(--green); color: var(--white);
+      padding: 1rem 1.5rem; border-radius: 4px;
+      cursor: pointer; border: none; width: 100%;
+      font-family: 'Noto Serif KR', serif;
+      font-size: 0.95rem; letter-spacing: 0.04em;
+      transition: background 0.2s;
+    }
+    .write-toggle:hover { background: var(--green-mid); }
+    .write-toggle-icon { font-size: 1.2rem; transition: transform 0.3s; }
+    .write-toggle-icon.open { transform: rotate(45deg); }
+
+    .write-box {
+      background: var(--white);
+      border: 1px solid var(--stone-mid);
+      border-top: none;
+      border-radius: 0 0 4px 4px;
+      padding: 1.8rem;
+      display: none;
+    }
+    .write-box.open { display: block; }
+
+    .form-row { display: flex; gap: 0.8rem; margin-bottom: 0.8rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.3rem; flex: 1; }
+    .form-label { font-size: 0.75rem; letter-spacing: 0.08em; color: var(--muted); }
+    input[type="text"], input[type="password"], textarea, select {
+      padding: 0.7rem 1rem;
+      border: 1px solid var(--stone-mid);
+      border-radius: 2px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      color: var(--charcoal);
+      background: var(--stone);
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+    input:focus, textarea:focus { outline: none; border-color: var(--green-soft); background: var(--white); }
+    textarea { height: 120px; resize: vertical; }
+    .form-full { margin-bottom: 0.8rem; }
+
+    .btn-submit {
+      width: 100%; padding: 0.9rem;
+      background: var(--gold); color: var(--white);
+      border: none; border-radius: 2px;
+      font-family: 'Noto Serif KR', serif;
+      font-size: 0.95rem; letter-spacing: 0.06em;
+      cursor: pointer; transition: background 0.2s;
+      margin-top: 0.5rem;
+    }
+    .btn-submit:hover { background: var(--gold-lt); }
+    .btn-submit:disabled { background: var(--muted); cursor: not-allowed; }
+
+    /* 카테고리 필터 */
+    .filter-bar {
+      display: flex; gap: 0.5rem; flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+    .filter-btn {
+      padding: 0.4rem 1rem;
+      border: 1px solid rgba(176,125,42,0.3);
+      background: transparent;
+      color: var(--muted);
+      font-size: 0.8rem; letter-spacing: 0.06em;
+      border-radius: 2rem; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .filter-btn.active { background: var(--green); color: var(--white); border-color: var(--green); }
+
+    /* 게시글 목록 */
+    .post-list { display: flex; flex-direction: column; gap: 1px; background: var(--stone-mid); border: 1px solid var(--stone-mid); }
+    .post-item {
+      background: var(--white);
+      padding: 1.4rem 1.6rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      position: relative;
+    }
+    .post-item:hover { background: var(--sage); }
+    .post-item::after {
+      content: ''; position: absolute;
+      left: 0; top: 0; bottom: 0; width: 3px;
+      background: var(--gold); transform: scaleY(0);
+      transform-origin: top; transition: transform 0.25s;
+    }
+    .post-item:hover::after { transform: scaleY(1); }
+    .post-item-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+    .post-category {
+      display: inline-block;
+      font-size: 0.68rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--gold);
+      border: 1px solid rgba(176,125,42,0.3);
+      padding: 0.1rem 0.6rem; border-radius: 2rem;
+      margin-bottom: 0.4rem;
+    }
+    .post-title-text {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 1rem; font-weight: 500;
+      color: var(--green); line-height: 1.4;
+    }
+    .post-meta { font-size: 0.78rem; color: var(--muted); margin-top: 0.3rem; }
+    .post-meta span { margin-right: 0.8rem; }
+    .post-preview { font-size: 0.85rem; color: var(--muted); margin-top: 0.5rem; line-height: 1.6; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+
+    /* 상세 보기 모달 */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(28,63,47,0.6); z-index: 200;
+      align-items: center; justify-content: center;
+      padding: 1.5rem;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: var(--white); border-radius: 4px;
+      max-width: 680px; width: 100%;
+      max-height: 80vh; overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    }
+    .modal-header {
+      background: var(--green); padding: 1.5rem 1.8rem;
+      display: flex; justify-content: space-between; align-items: flex-start;
+    }
+    .modal-category { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-lt); margin-bottom: 0.5rem; }
+    .modal-title { font-family: 'Noto Serif KR', serif; font-size: 1.15rem; font-weight: 500; color: var(--white); line-height: 1.4; }
+    .modal-meta { font-size: 0.78rem; color: rgba(255,255,255,0.5); margin-top: 0.4rem; }
+    .modal-close { background: transparent; border: none; color: rgba(255,255,255,0.5); font-size: 1.4rem; cursor: pointer; flex-shrink: 0; line-height: 1; padding: 0.2rem; }
+    .modal-close:hover { color: var(--white); }
+    .modal-body { padding: 1.8rem; }
+    .modal-content { font-size: 0.92rem; line-height: 1.9; color: var(--charcoal); white-space: pre-wrap; }
+    .modal-footer { padding: 1rem 1.8rem; border-top: 1px solid var(--stone-mid); display: flex; gap: 0.6rem; align-items: center; }
+    .modal-footer input { flex: 1; }
+    .btn-delete { padding: 0.6rem 1.2rem; background: transparent; border: 1px solid #c0392b; color: #c0392b; border-radius: 2px; font-size: 0.82rem; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+    .btn-delete:hover { background: #c0392b; color: var(--white); }
+
+    /* 빈 상태 */
+    .empty-state { text-align: center; padding: 4rem 2rem; background: var(--white); }
+    .empty-state-icon { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
+    .empty-state-text { font-family: 'Noto Serif KR', serif; font-size: 1rem; color: var(--muted); }
+
+    /* 로딩 */
+    .loading { text-align: center; padding: 3rem; color: var(--muted); font-size: 0.9rem; }
+
+    /* 알림 토스트 */
+    .toast {
+      position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      background: var(--green); color: var(--white);
+      padding: 0.8rem 1.8rem; border-radius: 2rem;
+      font-size: 0.88rem; z-index: 300;
+      opacity: 0; transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .toast.show { opacity: 1; }
+
+    /* FOOTER */
+    footer { background: var(--green); padding: 2.5rem; }
+    .footer-inner { max-width: 1060px; margin: 0 auto; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 2rem; }
+    .footer-name { font-family: 'Noto Serif KR', serif; font-size: 0.95rem; color: rgba(255,255,255,0.8); }
+    .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .footer-links a { font-size: 0.8rem; color: rgba(255,255,255,0.4); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--gold-lt); }
+    .footer-copy { width: 100%; font-size: 0.75rem; color: rgba(255,255,255,0.25); padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.07); margin-top: 0.5rem; }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-brand">
+    <img src="https://raw.githubusercontent.com/ykh695-sudo/image/refs/heads/main/smlogo.png" alt="성문고등학교" style="height: 36px; width: auto; object-fit: contain;" />
+    <div>
+      <span class="nav-name">성문고등학교 교목실</span>
+      <span class="nav-sub">Sungmoon High School Chaplaincy</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#overview">사역 개요</a></li>
+    <li><a href="index.html#koinonia">코이노니아</a></li>
+    <li><a href="index.html#busking">찬양 버스킹</a></li>
+    <li><a href="index.html#peacemaker">피스메이커</a></li>
+    <li><a href="index.html#festival">절기 예배</a></li>
+    <li><a href="index.html#encouragement">격려 사역</a></li>
+    <li><a href="index.html#contact">연락처</a></li>
+    <li><a href="board.html" class="active">게시판</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="container">
+    <p class="page-eyebrow">Community Board · 교목실 게시판</p>
+    <h1 class="page-title">교목실 <strong>게시판</strong></h1>
+    <p class="page-desc">공지, 나눔, 기도 제목 등을 자유롭게 나누는 공간입니다.</p>
+  </div>
+</div>
+
+<!-- BOARD -->
+<div class="board-wrap">
+
+  <!-- 글쓰기 -->
+  <div class="write-section">
+    <button class="write-toggle" onclick="toggleWrite()">
+      <span>✏️ &nbsp;새 글 쓰기</span>
+      <span class="write-toggle-icon" id="toggleIcon">＋</span>
+    </button>
+    <div class="write-box" id="writeBox">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">닉네임</label>
+          <input type="text" id="nickname" placeholder="이름 또는 닉네임">
+        </div>
+        <div class="form-group">
+          <label class="form-label">비밀번호 (삭제용)</label>
+          <input type="password" id="password" placeholder="나중에 삭제할 때 필요해요">
+        </div>
+        <div class="form-group">
+          <label class="form-label">분류</label>
+          <select id="category">
+            <option value="공지">📢 공지</option>
+            <option value="나눔" selected>💬 나눔</option>
+            <option value="기도제목">🙏 기도제목</option>
+            <option value="질문">❓ 질문</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-full">
+        <label class="form-label">제목</label>
+        <input type="text" id="title" placeholder="제목을 입력하세요" style="margin-top:0.3rem;">
+      </div>
+      <div class="form-full">
+        <label class="form-label">내용</label>
+        <textarea id="content" placeholder="내용을 입력하세요..." style="margin-top:0.3rem;"></textarea>
+      </div>
+      <button class="btn-submit" id="submitBtn" onclick="submitPost()">게시하기</button>
+    </div>
+  </div>
+
+  <!-- 필터 -->
+  <div class="filter-bar" id="filterBar">
+    <button class="filter-btn active" onclick="filterPosts('전체', this)">전체</button>
+    <button class="filter-btn" onclick="filterPosts('공지', this)">📢 공지</button>
+    <button class="filter-btn" onclick="filterPosts('나눔', this)">💬 나눔</button>
+    <button class="filter-btn" onclick="filterPosts('기도제목', this)">🙏 기도제목</button>
+    <button class="filter-btn" onclick="filterPosts('질문', this)">❓ 질문</button>
+  </div>
+
+  <!-- 글 목록 -->
+  <div id="postList">
+    <div class="loading">게시글을 불러오는 중...</div>
+  </div>
+
+</div>
+
+<!-- 상세 모달 -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <div class="modal-category" id="modalCategory"></div>
+        <div class="modal-title" id="modalTitle"></div>
+        <div class="modal-meta" id="modalMeta"></div>
+      </div>
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-content" id="modalContent"></div>
+    </div>
+    <div class="modal-footer">
+      <input type="password" id="deletePw" placeholder="비밀번호 입력 후 삭제">
+      <button class="btn-delete" onclick="deletePost()">삭제</button>
+    </div>
+  </div>
+</div>
+
+<!-- 토스트 -->
+<div class="toast" id="toast"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-name">성문고등학교 교목실</div>
+    </div>
+    <div class="footer-links">
+      <a href="index.html#overview">사역 개요</a>
+      <a href="index.html#koinonia">코이노니아</a>
+      <a href="index.html#busking">찬양 버스킹</a>
+      <a href="index.html#festival">절기 예배</a>
+      <a href="index.html#contact">연락처</a>
+      <a href="board.html">게시판</a>
+    </div>
+    <p class="footer-copy">© 2025 성문고등학교 교목실 · Sungmoon High School Chaplaincy</p>
+  </div>
+</footer>
+
+<!-- Firebase -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, query, orderBy, where, serverTimestamp }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  // ✅ 여기를 Firebase 콘솔에서 복사한 설정으로 교체하세요!
+const firebaseConfig = {
+  apiKey: "AIzaSyAVEDXJdj6Dkts5L-mP9KyFzYTSq1bW6m8",
+  authDomain: "chaplain-s-board.firebaseapp.com",
+  projectId: "chaplain-s-board",
+  storageBucket: "chaplain-s-board.firebasestorage.app",
+  messagingSenderId: "933408185681",
+  appId: "1:933408185681:web:46fecfdc616512f8e1c770"
+};
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  let allPosts = [];
+  let currentFilter = '전체';
+  let currentPostId = null;
+  let currentPostPw = null;
+
+  // 글 불러오기
+  async function loadPosts() {
+    const postList = document.getElementById('postList');
+    postList.innerHTML = '<div class="loading">불러오는 중...</div>';
+    try {
+      const q = query(collection(db, "chaplain_posts"), orderBy("createdAt", "desc"));
+      const snapshot = await getDocs(q);
+      allPosts = [];
+      snapshot.forEach(d => allPosts.push({ id: d.id, ...d.data() }));
+      renderPosts();
+    } catch (e) {
+      postList.innerHTML = '<div class="empty-state"><span class="empty-state-icon">⚠️</span><p class="empty-state-text">글을 불러오지 못했습니다.<br>잠시 후 다시 시도해주세요.</p></div>';
+    }
+  }
+
+  function renderPosts() {
+    const postList = document.getElementById('postList');
+    const filtered = currentFilter === '전체' ? allPosts : allPosts.filter(p => p.category === currentFilter);
+    if (filtered.length === 0) {
+      postList.innerHTML = '<div class="empty-state"><span class="empty-state-icon">📭</span><p class="empty-state-text">아직 게시글이 없어요.<br>첫 글을 남겨보세요!</p></div>';
+      return;
+    }
+    const catIcon = { '공지': '📢', '나눔': '💬', '기도제목': '🙏', '질문': '❓' };
+    postList.innerHTML = '<div class="post-list">' + filtered.map(p => {
+      const date = p.createdAt?.toDate().toLocaleDateString('ko-KR', { month: 'long', day: 'numeric' }) || '';
+      const preview = p.content.length > 80 ? p.content.slice(0, 80) + '...' : p.content;
+      return `
+        <div class="post-item" onclick="openModal('${p.id}', '${esc(p.category)}', '${esc(p.title)}', '${esc(p.nickname)}', '${date}', '${esc(p.content)}', '${esc(p.password)}')">
+          <div class="post-item-top">
+            <div style="flex:1;">
+              <div class="post-category">${catIcon[p.category] || ''} ${p.category}</div>
+              <div class="post-title-text">${esc(p.title)}</div>
+              <div class="post-meta"><span>✍️ ${esc(p.nickname)}</span><span>🗓 ${date}</span></div>
+            </div>
+          </div>
+          <div class="post-preview">${esc(preview)}</div>
+        </div>`;
+    }).join('') + '</div>';
+  }
+
+  function esc(str) {
+    return String(str || '')
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+
+  // 글 등록
+  window.submitPost = async function() {
+    const nickname = document.getElementById('nickname').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const category = document.getElementById('category').value;
+    const title    = document.getElementById('title').value.trim();
+    const content  = document.getElementById('content').value.trim();
+    if (!nickname || !password || !title || !content) {
+      showToast('모든 항목을 입력해주세요.');
+      return;
+    }
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true; btn.textContent = '등록 중...';
+    try {
+      await addDoc(collection(db, "chaplain_posts"), {
+        nickname, password, category, title, content,
+        createdAt: serverTimestamp()
+      });
+      document.getElementById('title').value = '';
+      document.getElementById('content').value = '';
+      showToast('게시글이 등록되었습니다! 🙏');
+      toggleWrite();
+      loadPosts();
+    } catch (e) {
+      showToast('등록 중 오류가 발생했습니다.');
+    }
+    btn.disabled = false; btn.textContent = '게시하기';
+  };
+
+  // 모달 열기
+  window.openModal = function(id, cat, title, nick, date, content, pw) {
+    currentPostId = id;
+    currentPostPw = pw;
+    document.getElementById('modalCategory').textContent = cat;
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalMeta').textContent = `✍️ ${nick}  ·  🗓 ${date}`;
+    document.getElementById('modalContent').textContent = content;
+    document.getElementById('deletePw').value = '';
+    document.getElementById('modalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.closeModal = function(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModalDirect();
+  };
+  window.closeModalDirect = function() {
+    document.getElementById('modalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  };
+
+  // 글 삭제
+  window.deletePost = async function() {
+    const inputPw = document.getElementById('deletePw').value;
+    if (inputPw !== currentPostPw) { showToast('비밀번호가 틀렸습니다.'); return; }
+    if (!confirm('정말 삭제할까요?')) return;
+    try {
+      await deleteDoc(doc(db, "chaplain_posts", currentPostId));
+      showToast('삭제되었습니다.');
+      closeModalDirect();
+      loadPosts();
+    } catch (e) {
+      showToast('삭제 중 오류가 발생했습니다.');
+    }
+  };
+
+  // 필터
+  window.filterPosts = function(cat, btn) {
+    currentFilter = cat;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderPosts();
+  };
+
+  // 글쓰기 토글
+  window.toggleWrite = function() {
+    const box = document.getElementById('writeBox');
+    const icon = document.getElementById('toggleIcon');
+    box.classList.toggle('open');
+    icon.classList.toggle('open');
+  };
+
+  // 토스트
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  loadPosts();
+</script>
+
+</body>
+</html>
