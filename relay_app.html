@@ -166,10 +166,13 @@
   <!-- ── STEP 0: 정보 입력 ── -->
   <div class="step active" id="step0">
     <p class="hint">시작하기 전에 정보를 입력해줘요.</p>
-    <div class="grid-2" style="margin-bottom:18px;">
-      <div class="field"><label>학년</label><input type="text" id="grade" placeholder="예: 2" oninput="checkStep0()"></div>
-      <div class="field"><label>반</label><input type="text" id="cls" placeholder="예: 3" oninput="checkStep0()"></div>
-      <div class="field"><label>번호</label><input type="text" id="num" placeholder="예: 15" oninput="checkStep0()"></div>
+    <div style="margin-bottom:10px;">
+      <div class="field">
+        <label>학번 <span style="font-weight:400;color:#aaa;">(예: 1학년 1반 1번 → 10101)</span></label>
+        <input type="text" id="hakbun" placeholder="예: 20315" oninput="checkStep0()" maxlength="6">
+      </div>
+    </div>
+    <div style="margin-bottom:18px;">
       <div class="field"><label>이름</label><input type="text" id="name" placeholder="이름을 입력해요" oninput="checkStep0()"></div>
     </div>
     <button class="btn-teal btn-full" id="btn0" onclick="goStep(1)" disabled>다음 →</button>
@@ -204,7 +207,7 @@
         <button class="btn-blue btn-flex2" id="btnRelay" onclick="doRelay()" disabled>AI에게 넘기기 →</button>
         <button class="btn-amber btn-flex" id="btnFinish" onclick="doFinish()" disabled>마무리하기</button>
       </div>
-      <p class="turn-count" id="turnCount">AI와 0/3번 교환했어요 · 더 하거나 바로 마무리해도 돼요</p>
+      <p class="turn-count" id="turnCount">AI와 0번 교환했어요 · 계속 이어가거나 마무리해도 돼요</p>
     </div>
   </div>
 
@@ -216,9 +219,9 @@
     </div>
     <p style="font-size:15px; font-weight:700; margin-bottom:14px;">이야기를 돌아봐요</p>
     <div class="reflect-block">
-      <span class="qlabel" style="color:var(--teal);">수사법 찾기</span>
-      <p class="qdesc">완성된 이야기에서 은유나 반복, 대비처럼 느껴지는 표현이 있어? 찾아서 써봐. (없어도 괜찮아)</p>
-      <textarea id="ref1" placeholder="예: '버스 창문에 비친 얼굴'은 나를 바라보는 것 같아서 은유처럼 느껴졌어요."></textarea>
+      <span class="qlabel" style="color:var(--teal);">인상적인 부분</span>
+      <p class="qdesc">완성된 이야기에서 가장 인상적이었던 부분은 어디야? 내가 쓴 것도, AI가 쓴 것도 괜찮아.</p>
+      <textarea id="ref1" placeholder="예: AI가 '마음 한 구석이 텅 비어가는 느낌'이라고 쓴 부분이 딱 내 마음 같아서 인상적이었어요."></textarea>
     </div>
     <div class="reflect-block">
       <span class="qlabel" style="color:var(--blue);">AI vs 나</span>
@@ -314,7 +317,7 @@ function goStep(n) {
 
 // ── STEP 0: 정보 입력 검증 ──
 function checkStep0() {
-  const ok = ["grade","cls","num","name"].every(id => document.getElementById(id).value.trim());
+  const ok = document.getElementById("hakbun").value.trim() && document.getElementById("name").value.trim();
   document.getElementById("btn0").disabled = !ok;
 }
 
@@ -402,14 +405,8 @@ async function doRelay() {
   document.getElementById("relayInput").style.display = "block";
   document.getElementById("relayHint").textContent = "AI 이야기를 받았어요. 이어서 2~3문장 써봐요.";
 
-  // 3번 이상이면 넘기기 버튼 숨김
-  if (state.studentTurns >= 3) {
-    document.getElementById("btnRelay").style.display = "none";
-  }
   document.getElementById("turnCount").textContent =
-    state.studentTurns < 3
-    ? `AI와 ${state.studentTurns}/3번 교환했어요 · 더 하거나 바로 마무리해도 돼요`
-    : `충분히 교환했어요. 마무리할 준비가 됐으면 눌러요.`;
+    `AI와 ${state.studentTurns}번 교환했어요 · 계속 이어가거나 마무리해도 돼요`;
 }
 
 function doFinish() {
