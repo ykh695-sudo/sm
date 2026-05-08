@@ -228,8 +228,31 @@
       <p class="qdesc">AI가 쓴 부분이랑 내가 쓴 부분, 어떤 차이가 느껴졌어?</p>
       <textarea id="ref2" placeholder="예: AI는 상황 설명을 더 많이 했는데, 나는 인물 감정을 더 쓰고 싶었어요."></textarea>
     </div>
-    <button class="btn-teal btn-full" onclick="doSubmit()" id="btnSubmit">제출하기 →</button>
-    <p class="turn-count" id="submitHint" style="margin-top:8px;"></p>
+    <button class="btn-teal btn-full" onclick="doAnalyze()">AI 분석 보기 →</button>
+  </div>
+
+  <!-- ── STEP 4: AI 분석 ── -->
+  <div class="step" id="step4">
+    <div id="analyzeLoading" style="text-align:center;padding:30px 0;display:none;">
+      <p style="font-size:14px;color:var(--blue);">AI가 이야기를 분석하는 중<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></p>
+    </div>
+    <div id="analyzeResult" style="display:none;">
+      <p style="font-size:15px;font-weight:700;margin:0 0 16px;">AI의 분석 결과</p>
+      <div class="card" style="border-left:3px solid var(--teal);margin-bottom:12px;">
+        <span class="section-label" style="color:var(--teal);">이야기 전체 평가</span>
+        <p id="analyzeStory" style="font-size:14px;line-height:1.85;color:var(--text);margin:0;"></p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--blue);margin-bottom:12px;">
+        <span class="section-label" style="color:var(--blue);">내가 쓴 부분의 특징</span>
+        <p id="analyzeStudent" style="font-size:14px;line-height:1.85;color:var(--text);margin:0;"></p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--amber);margin-bottom:20px;">
+        <span class="section-label" style="color:var(--amber);">AI가 쓴 부분과의 비교</span>
+        <p id="analyzeCompare" style="font-size:14px;line-height:1.85;color:var(--text);margin:0;"></p>
+      </div>
+      <button class="btn-teal btn-full" onclick="doSubmit()" id="btnSubmit">제출하기 →</button>
+      <p class="turn-count" id="submitHint" style="margin-top:8px;"></p>
+    </div>
   </div>
 
   <!-- ── 완료 화면 ── -->
@@ -254,7 +277,7 @@
 let SCRIPT_URL = "https://script.google.com/macros/s/AKfycby05K1X0lLTAjnhlwj9_y5BzHKf2G9YL0PVdVkw9714tgUI3451cGaUFt2JLTSdejmG/exec";
 // ─────────────────────────────────────────────────
 
-const STEPS = ["정보 입력", "씨앗 문장", "릴레이 쓰기", "돌아보기"];
+const STEPS = ["정보 입력", "씨앗 문장", "릴레이 쓰기", "돌아보기", "AI 분석"];
 const SEEDS = [
   "버스 창문에 내 얼굴이 비쳤다.",
   "그 사람은 항상 같은 자리에 앉아 있었다.",
@@ -416,6 +439,47 @@ function doFinish() {
   const full = [state.seed, ...state.relay.map(r => r.text)].join(" ");
   document.getElementById("storyResult").textContent = full;
   goStep(3);
+}
+
+// ── STEP 4: AI 분석 ──
+async function doAnalyze() {
+  goStep(4);
+  document.getElementById("analyzeLoading").style.display = "block";
+  document.getElementById("analyzeResult").style.display = "none";
+
+  const studentParts = state.relay.filter(r => r.role === "student").map(r => r.text).join("\n");
+  const aiParts = state.relay.filter(r => r.role === "ai").map(r => r.text).join("\n");
+  const fullStory = [state.seed, ...state.relay.map(r => r.text)].join(" ");
+
+  const maxRetry = 3;
+  let result = null;
+  for (let attempt = 1; attempt <= maxRetry; attempt++) {
+    try {
+      if (attempt > 1) await new Promise(r => setTimeout(r, 3000));
+      const params = new URLSearchParams({
+        type: "analyze",
+        story: fullStory,
+        student: studentParts,
+        ai: aiParts
+      });
+      const res = await fetch(SCRIPT_URL + "?" + params, { redirect: "follow" });
+      const raw = await res.text();
+      const data = JSON.parse(raw);
+      if (data.result === "success") { result = data; break; }
+    } catch {}
+  }
+
+  document.getElementById("analyzeLoading").style.display = "none";
+  document.getElementById("analyzeResult").style.display = "block";
+
+  if (result) {
+    document.getElementById("analyzeStory").textContent = result.evalStory || "";
+    document.getElementById("analyzeStudent").textContent = result.evalStudent || "";
+    document.getElementById("analyzeCompare").textContent = result.evalCompare || "";
+  } else {
+    document.getElementById("analyzeStory").textContent = "분석을 불러오지 못했어요. 다시 시도해봐요.";
+  }
+  updateSubmitHint();
 }
 
 // ── STEP 3: 제출 ──
