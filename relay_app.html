@@ -294,8 +294,9 @@ const SEEDS = [
 let state = {
   step: 0,
   seed: null,
-  relay: [],   // [{role:'student'|'ai', text}]
+  relay: [],
   studentTurns: 0,
+  isProcessing: false,
 };
 
 // ── 초기화 ──
@@ -380,13 +381,18 @@ function renderBubbles() {
 async function doRelay() {
   const cur = document.getElementById("curText").value.trim();
   if (!cur) return;
+  if (state.isProcessing) return;
+  state.isProcessing = true;
+
+  // 버튼 즉시 비활성화
+  document.getElementById("btnRelay").disabled = true;
+  document.getElementById("btnFinish").disabled = true;
 
   // 내 문장 추가
   state.relay.push({ role: "student", text: cur });
   state.studentTurns++;
   document.getElementById("curText").value = "";
   renderBubbles();
-  checkStep2();
 
   // 로딩 표시
   document.getElementById("relayInput").style.display = "none";
@@ -401,7 +407,7 @@ async function doRelay() {
       if (attempt > 1) {
         document.getElementById("loadingMsg").innerHTML =
           `AI가 잠깐 바빠요. 다시 시도 중... (${attempt}/${maxRetry})<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span>`;
-        await new Promise(r => setTimeout(r, 3000));
+        await new Promise(r => setTimeout(r, 5000));
       }
       const url = SCRIPT_URL + "?type=relay&story=" + encodeURIComponent(fullStory);
       const res = await fetch(url, { redirect: 'follow' });
@@ -427,6 +433,9 @@ async function doRelay() {
   document.getElementById("loadingMsg").classList.remove("show");
   document.getElementById("relayInput").style.display = "block";
   document.getElementById("relayHint").textContent = "AI 이야기를 받았어요. 이어서 2~3문장 써봐요.";
+  state.isProcessing = false;
+  document.getElementById("btnRelay").disabled = false;
+  document.getElementById("btnFinish").disabled = false;
 
   document.getElementById("turnCount").textContent =
     `AI와 ${state.studentTurns}번 교환했어요 · 계속 이어가거나 마무리해도 돼요`;
