@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI와 함께 쓰는 이야기</title>
+<style>
+  /* ── 리셋 & 기본 ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --teal:    #1D9E75;
+    --teal-l:  #E1F5EE;
+    --teal-d:  #085041;
+    --blue:    #185FA5;
+    --blue-l:  #E6F1FB;
+    --amber:   #BA7517;
+    --amber-l: #FAEEDA;
+    --gray:    #888780;
+    --border:  #E0E0DC;
+    --bg:      #FAFAF8;
+    --surface: #FFFFFF;
+    --text:    #1A1A18;
+    --muted:   #666663;
+    --sans: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --serif: 'Georgia', 'Noto Serif KR', serif;
+  }
+  body { font-family: var(--sans); background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  /* ── 레이아웃 ── */
+  .shell { max-width: 640px; margin: 0 auto; padding: 0 16px 60px; }
+  .header { display: flex; justify-content: space-between; align-items: flex-start; padding: 24px 0 20px; border-bottom: 1px solid var(--border); margin-bottom: 24px; }
+  .header-text p { font-size: 11px; color: var(--gray); letter-spacing: .06em; margin-bottom: 3px; }
+  .header-text h1 { font-size: 20px; font-weight: 700; color: var(--text); }
+
+  /* ── 진행 바 ── */
+  .progress { display: flex; gap: 6px; margin-bottom: 28px; }
+  .progress-item { flex: 1; }
+  .progress-bar { height: 3px; border-radius: 2px; background: var(--border); margin-bottom: 5px; transition: background .3s; }
+  .progress-bar.active { background: var(--teal); }
+  .progress-label { font-size: 11px; color: var(--gray); transition: color .3s; }
+  .progress-label.active { color: var(--teal); font-weight: 700; }
+
+  /* ── 카드 & 공통 ── */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; }
+  .section-label { font-size: 11px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--gray); margin-bottom: 6px; display: block; }
+  .hint { font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 12px; }
+
+  /* ── 입력 요소 ── */
+  input, textarea {
+    width: 100%; font-family: var(--sans); font-size: 14px;
+    padding: 9px 12px; border-radius: 8px; border: 1px solid var(--border);
+    background: var(--surface); color: var(--text);
+    outline: none; transition: border-color .2s;
+  }
+  input:focus, textarea:focus { border-color: var(--teal); }
+  textarea { font-family: var(--serif); line-height: 1.9; resize: vertical; min-height: 90px; }
+
+  /* ── 그리드 ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .field label { font-size: 11px; font-weight: 600; color: var(--gray); display: block; margin-bottom: 5px; }
+
+  /* ── 씨앗 카드 ── */
+  .seed-option {
+    padding: 14px 16px; border-radius: 10px; cursor: pointer;
+    border: 1px solid var(--border); background: var(--surface);
+    transition: all .15s; margin-bottom: 8px;
+  }
+  .seed-option:hover { border-color: var(--teal); }
+  .seed-option.selected { border: 2px solid var(--teal); background: var(--teal-l); }
+  .seed-option p { font-family: var(--serif); font-size: 15px; color: var(--text); line-height: 1.7; }
+  .seed-option.selected p { color: var(--teal-d); }
+
+  /* ── 릴레이 버블 ── */
+  .relay-area { margin-bottom: 16px; }
+  .seed-strip { border-left: 3px solid var(--teal); padding-left: 13px; margin-bottom: 18px; }
+  .seed-strip .lbl { font-size: 10px; font-weight: 700; color: var(--teal); letter-spacing: .06em; margin-bottom: 4px; }
+  .seed-strip .txt { font-family: var(--serif); font-size: 14px; line-height: 1.7; }
+  .bubble-wrap { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+  .bubble { display: flex; flex-direction: column; }
+  .bubble.me { align-items: flex-end; }
+  .bubble.ai { align-items: flex-start; }
+  .bubble .who { font-size: 10px; font-weight: 700; letter-spacing: .05em; margin-bottom: 4px; }
+  .bubble.me .who { color: var(--teal); }
+  .bubble.ai .who { color: var(--blue); }
+  .bubble .body {
+    max-width: 88%; padding: 10px 14px;
+    font-family: var(--serif); font-size: 14px; line-height: 1.85; color: var(--text);
+  }
+  .bubble.me .body { background: var(--teal-l); border: 1px solid #9FE1CB; border-radius: 12px 12px 4px 12px; }
+  .bubble.ai .body { background: var(--blue-l); border: 1px solid #B5D4F4; border-radius: 12px 12px 12px 4px; }
+
+  /* ── 로딩 ── */
+  .loading { text-align: center; padding: 16px; color: var(--blue); font-size: 13px; display: none; }
+  .loading.show { display: block; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+  .dot { animation: blink 1.2s infinite; }
+  .dot:nth-child(2) { animation-delay: .2s; }
+  .dot:nth-child(3) { animation-delay: .4s; }
+
+  /* ── 버튼 ── */
+  .btn-row { display: flex; gap: 8px; margin-top: 10px; }
+  button {
+    font-family: var(--sans); font-size: 13px; font-weight: 600;
+    padding: 10px 16px; border-radius: 8px; cursor: pointer;
+    background: transparent; transition: all .15s; border: 1.5px solid;
+  }
+  button:disabled { opacity: .35; cursor: not-allowed; }
+  .btn-teal  { color: var(--teal);  border-color: var(--teal); }
+  .btn-blue  { color: var(--blue);  border-color: var(--blue); }
+  .btn-amber { color: var(--amber); border-color: var(--amber); }
+  .btn-gray  { color: var(--gray);  border-color: var(--border); }
+  .btn-full  { width: 100%; }
+  .btn-flex  { flex: 1; }
+  .btn-flex2 { flex: 2; }
+  button:not(:disabled):hover { opacity: .8; }
+
+  /* ── 완료 화면 ── */
+  .done-wrap { text-align: center; padding: 40px 0 20px; }
+  .done-icon { width: 52px; height: 52px; border-radius: 50%; background: var(--teal-l); color: var(--teal); font-size: 22px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
+  .done-title { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+  .done-sub { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
+  .story-result { background: var(--amber-l); border: 1px solid #FAC775; border-radius: 12px; padding: 16px 18px; text-align: left; }
+  .story-result .lbl { font-size: 10px; font-weight: 700; color: var(--amber); letter-spacing: .05em; margin-bottom: 10px; }
+  .story-result .txt { font-family: var(--serif); font-size: 14px; line-height: 1.95; }
+
+  /* ── 스텝 숨김/표시 ── */
+  .step { display: none; }
+  .step.active { display: block; }
+
+  /* ── 설정 패널 ── */
+  .cfg-btn { font-size: 11px; color: var(--gray); background: none; border: 1px solid var(--border); border-radius: 6px; padding: 4px 8px; cursor: pointer; font-weight: 400; }
+  .cfg-panel { background: var(--amber-l); border: 1px solid #FAC775; border-radius: 10px; padding: 14px 16px; margin-bottom: 16px; display: none; }
+  .cfg-panel.show { display: block; }
+  .cfg-panel .lbl { font-size: 12px; font-weight: 700; color: var(--amber); margin-bottom: 6px; display: block; }
+  .cfg-panel .hint { color: #854F0B; }
+
+  /* ── 반성 섹션 ── */
+  .reflect-block { margin-bottom: 14px; }
+  .reflect-block .qlabel { font-size: 11px; font-weight: 700; margin-bottom: 5px; display: block; }
+  .reflect-block .qdesc { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 6px; }
+  .turn-count { font-size: 11px; color: var(--muted); text-align: center; margin-top: 8px; }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- 헤더 -->
+  <div class="header">
+    <div class="header-text">
+      <p>심화창작 · 릴레이 소설 쓰기</p>
+      <h1>AI와 함께 쓰는 이야기</h1>
+    </div>
+    <button class="cfg-btn" onclick="toggleCfg()">⚙ 교사 설정</button>
+  </div>
+
+  <!-- 교사 설정 패널 -->
+  <div class="cfg-panel" id="cfgPanel">
+    <span class="lbl">Google Sheets 연동 URL (선생님 전용)</span>
+    <input type="text" id="scriptUrl" placeholder="Apps Script 웹앱 URL을 붙여넣으세요" oninput="saveUrl()" />
+    <p class="hint" style="margin-top:6px;">배포 후 받은 URL을 붙여넣으면 학생 제출 시 시트에 자동 저장됩니다.</p>
+  </div>
+
+  <!-- 진행 바 -->
+  <div class="progress" id="progressBar"></div>
+
+  <!-- ── STEP 0: 정보 입력 ── -->
+  <div class="step active" id="step0">
+    <p class="hint">시작하기 전에 정보를 입력해줘요.</p>
+    <div class="grid-2" style="margin-bottom:18px;">
+      <div class="field"><label>학년</label><input type="text" id="grade" placeholder="예: 2" oninput="checkStep0()"></div>
+      <div class="field"><label>반</label><input type="text" id="cls" placeholder="예: 3" oninput="checkStep0()"></div>
+      <div class="field"><label>번호</label><input type="text" id="num" placeholder="예: 15" oninput="checkStep0()"></div>
+      <div class="field"><label>이름</label><input type="text" id="name" placeholder="이름을 입력해요" oninput="checkStep0()"></div>
+    </div>
+    <button class="btn-teal btn-full" id="btn0" onclick="goStep(1)" disabled>다음 →</button>
+  </div>
+
+  <!-- ── STEP 1: 씨앗 문장 ── -->
+  <div class="step" id="step1">
+    <p class="hint">하나를 골라봐요. 끌리는 게 있으면 그게 맞아요.</p>
+    <div id="seedList"></div>
+    <div class="btn-row">
+      <button class="btn-gray btn-flex" onclick="goStep(0)">← 이전</button>
+      <button class="btn-teal btn-flex2" id="btn1" onclick="goStep(2)" disabled>이 문장으로 시작할게 →</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 2: 릴레이 쓰기 ── -->
+  <div class="step" id="step2">
+    <div class="seed-strip">
+      <div class="lbl">씨앗 문장</div>
+      <div class="txt" id="seedDisplay"></div>
+    </div>
+    <div class="relay-area">
+      <div class="bubble-wrap" id="bubbleWrap"></div>
+      <div class="loading" id="loadingMsg">
+        AI가 이야기를 이어쓰는 중<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span>
+      </div>
+    </div>
+    <div id="relayInput">
+      <p class="hint" id="relayHint">씨앗 문장에서 이어서 2~3문장을 써봐요.</p>
+      <textarea id="curText" placeholder="여기에 이야기를 이어 써봐요..." oninput="checkStep2()"></textarea>
+      <div class="btn-row">
+        <button class="btn-blue btn-flex2" id="btnRelay" onclick="doRelay()" disabled>AI에게 넘기기 →</button>
+        <button class="btn-amber btn-flex" id="btnFinish" onclick="doFinish()" disabled>마무리하기</button>
+      </div>
+      <p class="turn-count" id="turnCount">AI와 0/3번 교환했어요 · 더 하거나 바로 마무리해도 돼요</p>
+    </div>
+  </div>
+
+  <!-- ── STEP 3: 돌아보기 ── -->
+  <div class="step" id="step3">
+    <div class="story-result" style="margin-bottom:20px;">
+      <div class="lbl">완성된 이야기</div>
+      <div class="txt" id="storyResult"></div>
+    </div>
+    <p style="font-size:15px; font-weight:700; margin-bottom:14px;">이야기를 돌아봐요</p>
+    <div class="reflect-block">
+      <span class="qlabel" style="color:var(--teal);">수사법 찾기</span>
+      <p class="qdesc">완성된 이야기에서 은유나 반복, 대비처럼 느껴지는 표현이 있어? 찾아서 써봐. (없어도 괜찮아)</p>
+      <textarea id="ref1" placeholder="예: '버스 창문에 비친 얼굴'은 나를 바라보는 것 같아서 은유처럼 느껴졌어요."></textarea>
+    </div>
+    <div class="reflect-block">
+      <span class="qlabel" style="color:var(--blue);">AI vs 나</span>
+      <p class="qdesc">AI가 쓴 부분이랑 내가 쓴 부분, 어떤 차이가 느껴졌어?</p>
+      <textarea id="ref2" placeholder="예: AI는 상황 설명을 더 많이 했는데, 나는 인물 감정을 더 쓰고 싶었어요."></textarea>
+    </div>
+    <button class="btn-teal btn-full" onclick="doSubmit()" id="btnSubmit">제출하기 →</button>
+    <p class="turn-count" id="submitHint" style="margin-top:8px;"></p>
+  </div>
+
+  <!-- ── 완료 화면 ── -->
+  <div class="step" id="stepDone">
+    <div class="done-wrap">
+      <div class="done-icon">✓</div>
+      <p class="done-title">제출 완료!</p>
+      <p class="done-sub" id="doneSub"></p>
+      <div class="story-result">
+        <div class="lbl">완성된 이야기</div>
+        <div class="txt" id="doneStory"></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /shell -->
+
+<script>
+// ── 설정 ──────────────────────────────────────────
+// 선생님: 아래 빈 문자열에 Apps Script 웹앱 URL을 붙여넣으세요.
+// 또는 페이지 우측 상단 "⚙ 교사 설정"에서 입력해도 됩니다.
+let SCRIPT_URL = "https://script.google.com/macros/s/AKfycby05K1X0lLTAjnhlwj9_y5BzHKf2G9YL0PVdVkw9714tgUI3451cGaUFt2JLTSdejmG/exec";
+// ─────────────────────────────────────────────────
+
+const STEPS = ["정보 입력", "씨앗 문장", "릴레이 쓰기", "돌아보기"];
+const SEEDS = [
+  "버스 창문에 내 얼굴이 비쳤다.",
+  "그 사람은 항상 같은 자리에 앉아 있었다.",
+  "오늘따라 복도가 유독 길게 느껴졌다.",
+  "문을 열었을 때 아무도 없었다.",
+  "오래된 사진 한 장이 책 사이에서 떨어졌다.",
+  "비가 그쳤는데도 우산을 접지 못했다.",
+  "핸드폰을 들었다가 다시 내려놓았다.",
+  "그날 이후로 그 노래를 듣지 못했다.",
+  "빈 의자 하나가 유독 눈에 띄었다.",
+  "처음으로 그 이름을 소리 내어 불렀다.",
+];
+
+let state = {
+  step: 0,
+  seed: null,
+  relay: [],   // [{role:'student'|'ai', text}]
+  studentTurns: 0,
+};
+
+// ── 초기화 ──
+window.onload = () => {
+  // 저장된 URL 불러오기
+  const saved = localStorage.getItem("scriptUrl");
+  if (saved) { SCRIPT_URL = saved; document.getElementById("scriptUrl").value = saved; }
+  renderProgress();
+  renderSeeds();
+  updateSubmitHint();
+};
+
+// ── 설정 패널 ──
+function toggleCfg() {
+  document.getElementById("cfgPanel").classList.toggle("show");
+}
+function saveUrl() {
+  SCRIPT_URL = document.getElementById("scriptUrl").value.trim();
+  localStorage.setItem("scriptUrl", SCRIPT_URL);
+  updateSubmitHint();
+}
+
+// ── 진행 바 ──
+function renderProgress() {
+  const bar = document.getElementById("progressBar");
+  bar.innerHTML = STEPS.map((lbl, i) => `
+    <div class="progress-item">
+      <div class="progress-bar ${i <= state.step ? 'active' : ''}"></div>
+      <div class="progress-label ${i === state.step ? 'active' : ''}">${lbl}</div>
+    </div>
+  `).join("");
+}
+
+// ── 스텝 전환 ──
+function goStep(n) {
+  document.querySelectorAll(".step").forEach(el => el.classList.remove("active"));
+  const target = n === "done" ? "stepDone" : `step${n}`;
+  document.getElementById(target).classList.add("active");
+  if (typeof n === "number") { state.step = n; renderProgress(); }
+  window.scrollTo(0, 0);
+}
+
+// ── STEP 0: 정보 입력 검증 ──
+function checkStep0() {
+  const ok = ["grade","cls","num","name"].every(id => document.getElementById(id).value.trim());
+  document.getElementById("btn0").disabled = !ok;
+}
+
+// ── STEP 1: 씨앗 문장 ──
+function renderSeeds() {
+  document.getElementById("seedList").innerHTML = SEEDS.map((txt, i) => `
+    <div class="seed-option ${state.seed === txt ? 'selected' : ''}" onclick="selectSeed('${txt.replace(/'/g,"\\'")}')">
+      <p>${txt}</p>
+    </div>
+  `).join("");
+}
+function selectSeed(txt) {
+  state.seed = txt;
+  renderSeeds();
+  document.getElementById("btn1").disabled = false;
+  document.getElementById("seedDisplay").textContent = txt;
+}
+
+// ── STEP 2: 릴레이 쓰기 ──
+function checkStep2() {
+  const hasText = document.getElementById("curText").value.trim().length > 0;
+  document.getElementById("btnRelay").disabled = !hasText;
+  document.getElementById("btnFinish").disabled = !hasText;
+}
+
+function renderBubbles() {
+  const wrap = document.getElementById("bubbleWrap");
+  wrap.innerHTML = state.relay.map(r => `
+    <div class="bubble ${r.role === 'student' ? 'me' : 'ai'}">
+      <span class="who">${r.role === 'student' ? '내가 쓴 부분' : 'AI가 쓴 부분'}</span>
+      <div class="body">${r.text}</div>
+    </div>
+  `).join("");
+  wrap.scrollIntoView({ behavior: "smooth", block: "end" });
+}
+
+async function doRelay() {
+  const cur = document.getElementById("curText").value.trim();
+  if (!cur) return;
+
+  // 내 문장 추가
+  state.relay.push({ role: "student", text: cur });
+  state.studentTurns++;
+  document.getElementById("curText").value = "";
+  renderBubbles();
+  checkStep2();
+
+  // 로딩 표시
+  document.getElementById("relayInput").style.display = "none";
+  document.getElementById("loadingMsg").classList.add("show");
+
+  // Apps Script → Gemini 호출 (자동 재시도 3회)
+  const fullStory = [state.seed, ...state.relay.map(r => r.text)].join(" ");
+  let aiText = "";
+  const maxRetry = 3;
+  for (let attempt = 1; attempt <= maxRetry; attempt++) {
+    try {
+      if (attempt > 1) {
+        document.getElementById("loadingMsg").innerHTML =
+          `AI가 잠깐 바빠요. 다시 시도 중... (${attempt}/${maxRetry})<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span>`;
+        await new Promise(r => setTimeout(r, 3000));
+      }
+      const url = SCRIPT_URL + "?type=relay&story=" + encodeURIComponent(fullStory);
+      const res = await fetch(url, { redirect: 'follow' });
+      const raw = await res.text();
+      const data = JSON.parse(raw);
+      if (data.result === "success" && data.text) {
+        aiText = data.text;
+        break;
+      } else if (attempt === maxRetry) {
+        aiText = "AI 서버가 바빠요. 잠시 후 다시 눌러봐요.";
+      }
+    } catch {
+      if (attempt === maxRetry) {
+        aiText = "연결 오류가 발생했어요. 잠시 후 다시 눌러봐요.";
+      }
+    }
+  }
+
+  state.relay.push({ role: "ai", text: aiText });
+  renderBubbles();
+
+  // 로딩 숨김
+  document.getElementById("loadingMsg").classList.remove("show");
+  document.getElementById("relayInput").style.display = "block";
+  document.getElementById("relayHint").textContent = "AI 이야기를 받았어요. 이어서 2~3문장 써봐요.";
+
+  // 3번 이상이면 넘기기 버튼 숨김
+  if (state.studentTurns >= 3) {
+    document.getElementById("btnRelay").style.display = "none";
+  }
+  document.getElementById("turnCount").textContent =
+    state.studentTurns < 3
+    ? `AI와 ${state.studentTurns}/3번 교환했어요 · 더 하거나 바로 마무리해도 돼요`
+    : `충분히 교환했어요. 마무리할 준비가 됐으면 눌러요.`;
+}
+
+function doFinish() {
+  const cur = document.getElementById("curText").value.trim();
+  if (!cur) return;
+  state.relay.push({ role: "student", text: cur });
+  const full = [state.seed, ...state.relay.map(r => r.text)].join(" ");
+  document.getElementById("storyResult").textContent = full;
+  goStep(3);
+}
+
+// ── STEP 3: 제출 ──
+function updateSubmitHint() {
+  const el = document.getElementById("submitHint");
+  if (!el) return;
+  el.textContent = SCRIPT_URL
+    ? "제출하면 선생님 구글 시트에 자동 저장돼요."
+    : "⚠ 저장 URL이 없어요. 선생님께 Apps Script URL을 받으세요.";
+}
+
+async function doSubmit() {
+  const btn = document.getElementById("btnSubmit");
+  btn.disabled = true;
+  btn.textContent = "저장 중...";
+
+  const fullStory = [state.seed, ...state.relay.map(r => r.text)].join(" ");
+  const payload = {
+    type: "submit",
+    timestamp: new Date().toLocaleString("ko-KR"),
+    grade:  document.getElementById("grade").value,
+    class:  document.getElementById("cls").value,
+    number: document.getElementById("num").value,
+    name:   document.getElementById("name").value,
+    seed:   state.seed,
+    story:  fullStory,
+    relayCount: state.studentTurns,
+    reflection1: document.getElementById("ref1").value,
+    reflection2: document.getElementById("ref2").value,
+  };
+
+  if (SCRIPT_URL) {
+    try {
+      await fetch(SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        body: JSON.stringify(payload)
+      });
+    } catch {}
+  }
+
+  // 완료 화면
+  document.getElementById("doneSub").textContent =
+    `${payload.name}의 작품이 저장됐어요.`;
+  document.getElementById("doneStory").textContent = fullStory;
+  goStep("done");
+}
+</script>
+</body>
+</html>
