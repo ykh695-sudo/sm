@@ -465,13 +465,10 @@ async function doAnalyze() {
   for (let attempt = 1; attempt <= maxRetry; attempt++) {
     try {
       if (attempt > 1) await new Promise(r => setTimeout(r, 3000));
-      const params = new URLSearchParams({
-        type: "analyze",
-        story: fullStory,
-        student: studentParts,
-        ai: aiParts
+      const res = await fetch(SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify({ type: "analyze", story: fullStory, student: studentParts, ai: aiParts })
       });
-      const res = await fetch(SCRIPT_URL + "?" + params, { redirect: "follow" });
       const raw = await res.text();
       const data = JSON.parse(raw);
       if (data.result === "success") { result = data; break; }
