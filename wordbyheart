@@ -1,0 +1,401 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>결과보고 | WORD by Heart — 하와이 열방대학 초청 특별 수업</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1a2744;
+    --navy-light: #2d3f6b;
+    --gold: #c9a84c;
+    --gold-light: #e8d08a;
+    --cream: #f9f5ee;
+    --warm-white: #fdfaf4;
+    --text: #2c2c2c;
+    --text-muted: #505050;
+    --accent: #8b4513;
+    --border: #ddd4be;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--warm-white);
+    color: var(--text);
+    font-weight: 300;
+    line-height: 1.95;
+    font-size: 20px;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    background: var(--navy);
+    color: white;
+    padding: 88px 40px 68px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(201,168,76,0.12) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(201,168,76,0.08) 0%, transparent 50%);
+  }
+  .hero-tag {
+    font-size: 14px; letter-spacing: 5px; color: var(--gold);
+    text-transform: uppercase; margin-bottom: 24px; position: relative;
+    display: flex; align-items: center; justify-content: center; gap: 14px;
+  }
+  .hero-tag::before, .hero-tag::after {
+    content: ''; width: 44px; height: 1px; background: var(--gold); opacity: 0.5;
+  }
+  .hero-title-en {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(54px, 8vw, 84px);
+    font-weight: 400; letter-spacing: 2px; line-height: 1.1;
+    position: relative; margin-bottom: 12px;
+  }
+  .hero-title-en em { font-style: italic; color: var(--gold-light); }
+  .hero-title-ko {
+    font-family: 'Noto Serif KR', serif;
+    font-size: clamp(17px, 2.4vw, 23px);
+    font-weight: 300; color: rgba(255,255,255,0.7);
+    letter-spacing: 1px; margin-bottom: 44px; position: relative;
+  }
+  .hero-meta { display: flex; justify-content: center; flex-wrap: wrap; position: relative; }
+  .meta-item {
+    padding: 11px 30px;
+    border-right: 1px solid rgba(255,255,255,0.15);
+    font-size: 15px; color: rgba(255,255,255,0.72);
+  }
+  .meta-item:last-child { border-right: none; }
+  .meta-item strong {
+    display: block; color: var(--gold-light);
+    font-size: 16px; font-weight: 500; margin-bottom: 4px;
+  }
+
+  /* ─── LAYOUT ─── */
+  .container { max-width: 1000px; margin: 0 auto; padding: 0 32px; }
+
+  /* ─── SECTION HEADERS ─── */
+  .section-header { display: flex; align-items: center; gap: 16px; margin: 66px 0 34px; }
+  .section-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 56px; font-weight: 400;
+    color: var(--gold); line-height: 1; opacity: 0.5; min-width: 42px;
+  }
+  .section-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 26px; font-weight: 600; color: var(--navy);
+    border-bottom: 2px solid var(--gold); padding-bottom: 8px; flex: 1;
+  }
+
+  /* ─── INFO CARDS ─── */
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px; margin-bottom: 16px;
+  }
+  .info-card {
+    background: var(--cream); border-left: 4px solid var(--gold);
+    padding: 20px 24px; border-radius: 0 6px 6px 0;
+  }
+  .info-card .label {
+    font-size: 12px; letter-spacing: 2px;
+    color: var(--gold); text-transform: uppercase; margin-bottom: 6px;
+  }
+  .info-card .value {
+    font-size: 19px; color: var(--navy);
+    font-weight: 400; font-family: 'Noto Serif KR', serif; line-height: 1.75;
+  }
+
+  /* ─── CONTENT BODY ─── */
+  .content-body {
+    background: white; border: 1px solid var(--border);
+    border-radius: 8px; padding: 38px 44px; margin-bottom: 8px;
+  }
+  .content-body > p { font-size: 18px; color: var(--text-muted); margin-bottom: 28px; }
+
+  /* ─── PILLARS ─── */
+  .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  @media (max-width: 640px) { .pillars { grid-template-columns: 1fr; } }
+  .pillar {
+    text-align: center; padding: 34px 22px;
+    border: 1px solid var(--border); border-radius: 8px;
+    background: var(--cream); position: relative; overflow: hidden;
+  }
+  .pillar::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 3px; background: var(--gold);
+  }
+  .pillar-en { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 600; color: var(--navy); margin-bottom: 5px; }
+  .pillar-ko { font-size: 14px; color: var(--gold); letter-spacing: 1px; margin-bottom: 16px; }
+  .pillar-desc { font-size: 16px; color: var(--text-muted); line-height: 1.8; }
+
+  /* ─── ACHIEVEMENT LIST ─── */
+  .achievement-list { list-style: none; display: flex; flex-direction: column; gap: 28px; }
+  .achievement-list li { display: flex; gap: 20px; align-items: flex-start; }
+  .ach-icon {
+    width: 46px; height: 46px; background: var(--navy); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; color: var(--gold); font-size: 18px; margin-top: 4px;
+  }
+  .ach-text strong {
+    display: block; font-size: 20px; font-weight: 500;
+    color: var(--navy); margin-bottom: 6px; font-family: 'Noto Serif KR', serif;
+  }
+  .ach-text span { font-size: 18px; color: var(--text-muted); line-height: 1.95; }
+
+  /* ─── FEEDBACK LIST ─── */
+  .feedback-list { list-style: none; display: flex; flex-direction: column; gap: 20px; }
+  .feedback-list li {
+    background: var(--cream); border-left: 4px solid var(--accent);
+    padding: 20px 26px; border-radius: 0 6px 6px 0;
+    font-size: 18px; line-height: 1.95;
+  }
+  .feedback-list li strong {
+    color: var(--accent); display: block; font-size: 19px;
+    margin-bottom: 7px; font-family: 'Noto Serif KR', serif; font-weight: 600;
+  }
+
+  /* ─── OVERALL OPINION ─── */
+  .opinion-box {
+    background: var(--navy); color: white; border-radius: 10px;
+    padding: 48px 56px; position: relative; overflow: hidden; margin: 12px 0 68px;
+  }
+  .opinion-box::before {
+    content: '"'; position: absolute; top: -10px; left: 30px;
+    font-family: 'Cormorant Garamond', serif; font-size: 180px;
+    color: rgba(201,168,76,0.12); line-height: 1;
+  }
+  .opinion-box p {
+    font-size: 20px; line-height: 2.15; position: relative;
+    color: rgba(255,255,255,0.92); font-family: 'Noto Serif KR', serif; font-weight: 300;
+  }
+
+  /* ─── DIVIDER ─── */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 12px 0; }
+
+  /* ─── VIDEO SECTION ─── */
+  .video-section { margin: 0 0 100px; }
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 28px;
+  }
+  .video-item {
+    background: white; border: 1px solid var(--border);
+    border-radius: 12px; overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+    transition: box-shadow 0.25s;
+  }
+  .video-item:hover { box-shadow: 0 6px 28px rgba(0,0,0,0.13); }
+  .video-item video {
+    width: 100%; display: block;
+    background: #0e1117;
+    max-height: 220px;
+    object-fit: cover;
+  }
+  .video-caption {
+    padding: 16px 20px; font-size: 17px; color: var(--text-muted);
+    font-family: 'Noto Serif KR', serif; border-top: 1px solid var(--border);
+    background: var(--cream);
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    text-align: center; padding: 32px; font-size: 15px;
+    color: var(--text-muted); border-top: 1px solid var(--border); letter-spacing: 0.5px;
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">결과보고 · 2026</div>
+  <div class="hero-title-en">WORD <em>by</em> Heart</div>
+  <div class="hero-title-ko">하와이 열방대학(YWAM) 초청 종교교과 특별 수업</div>
+  <div class="hero-meta">
+    <div class="meta-item"><strong>일시</strong>2026.05.11 – 05.13</div>
+    <div class="meta-item"><strong>장소</strong>예배실 (소강당)</div>
+    <div class="meta-item"><strong>대상</strong>2학년 5개 학급</div>
+    <div class="meta-item"><strong>강사</strong>YWAM Kona 팀 (7명)</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 01 행사 개요 -->
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2 class="section-title">행사 개요</h2>
+  </div>
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="label">일시</div>
+      <div class="value">2026년 5월 11일(월) ~ 5월 13일(수)</div>
+    </div>
+    <div class="info-card">
+      <div class="label">대상</div>
+      <div class="value">2학년 5개 학급 (1, 5, 6, 7, 8반)<br>수요 코이노니아 참여 학생</div>
+    </div>
+    <div class="info-card">
+      <div class="label">장소</div>
+      <div class="value">예배실 (소강당)</div>
+    </div>
+    <div class="info-card">
+      <div class="label">강사진</div>
+      <div class="value">하와이 코나 열방대학(YWAM)<br>'Word By Heart' 팀 외국인 강사 7명</div>
+    </div>
+    <div class="info-card" style="grid-column: 1 / -1;">
+      <div class="label">주제</div>
+      <div class="value">"마음에 새기는 말씀" — 상상력과 오감을 활용한 성경 스토리텔링</div>
+    </div>
+  </div>
+
+  <!-- 02 교육 내용 -->
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2 class="section-title">주요 교육 내용 — WORD by Heart</h2>
+  </div>
+  <div class="content-body">
+    <p>성경 속 사건을 감각적 표현으로 재구성하는 역동적인 학습으로 진행되었습니다.</p>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pillar-en">Experience</div>
+        <div class="pillar-ko">경험</div>
+        <div class="pillar-desc">상상력을 동원해 성경의 장면을 입체적으로 시각화하기</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-en">Expression</div>
+        <div class="pillar-ko">표현</div>
+        <div class="pillar-desc">내면화된 말씀을 자신의 언어와 몸짓으로 생생하게 전달하기</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-en">Language</div>
+        <div class="pillar-ko">언어</div>
+        <div class="pillar-desc">반복적인 말하기·듣기를 통해 자연스럽게 영어 성경 구절 습득하기</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 주요 성과 -->
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2 class="section-title">주요 성과 및 장점</h2>
+  </div>
+  <div class="content-body">
+    <ul class="achievement-list">
+      <li>
+        <div class="ach-icon">✦</div>
+        <div class="ach-text">
+          <strong>자연스러운 몰입형 영어 환경</strong>
+          <span>강사진의 뛰어난 영어 역량을 바탕으로 일상 대화와 성경 스토리가 자연스럽게 연결되어, 학생들에게 실질적인 '신앙+영어' 융합 학습의 기회를 제공했습니다.</span>
+        </div>
+      </li>
+      <li>
+        <div class="ach-icon">✦</div>
+        <div class="ach-text">
+          <strong>존중과 수용의 태도</strong>
+          <span>비기독교인 학생들의 다소 냉소적이거나 엉뚱한 답변도 따뜻하게 경청하고 긍정적으로 반응해 주어, 학생들이 거부감 없이 수업에 참여할 수 있는 심리적 안전감을 형성했습니다.</span>
+        </div>
+      </li>
+      <li>
+        <div class="ach-icon">✦</div>
+        <div class="ach-text">
+          <strong>드라마틱한 스토리텔링</strong>
+          <span>암송한 말씀을 한 편의 드라마처럼 구현해내는 강사들의 퍼포먼스는 학생들의 호기심을 자극하고 복음의 메시지를 친숙하게 전달하는 데 효과적이었습니다.</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- 04 개선 제언 -->
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <h2 class="section-title">향후 개선을 위한 제언</h2>
+  </div>
+  <div class="content-body">
+    <ul class="feedback-list">
+      <li>
+        <strong>학습 동기부여 세션의 필요성</strong>
+        '성경 익히기 방법론'에 앞서, 종교적 배경이 다양한 일반계 고교 학생들에게 "왜 이 이야기가 우리 삶에 의미가 있는가"에 대한 정서적 접점을 먼저 만드는 과정이 보완되어야 합니다.
+      </li>
+      <li>
+        <strong>용어의 눈높이 조정</strong>
+        '보혈', '유월절', '성령' 등 교회 안의 언어를 학생들의 눈높이에 맞춘 일상 언어로 재해석하여 전달하는 것이 필요합니다.
+      </li>
+      <li>
+        <strong>강사 역량의 편차 관리</strong>
+        강사진의 학생 소통 역량에 따라 학급별 수업 분위기와 만족도에 유의미한 차이가 발생하였습니다. 일부 학급은 매우 긍정적인 반응을 보인 반면, 소통이 원활하지 못했던 학급에서는 다소 부정적인 인식이 형성되었을 우려가 있습니다.
+      </li>
+      <li>
+        <strong>강사진의 연령대 고려 및 학생 공감대 형성</strong>
+        방문 강사진의 전반적인 연령대가 다소 높아, 고등학생들과의 정서적 접점을 찾거나 최신 세대 문화를 반영한 역동적인 소통을 이끌어내는 데 한계가 있었습니다.
+      </li>
+    </ul>
+  </div>
+
+  <!-- 종합 의견 -->
+  <div class="section-header">
+    <span class="section-num">✦</span>
+    <h2 class="section-title">종합 의견</h2>
+  </div>
+  <div class="opinion-box">
+    <p>
+      이번 특별 수업은 멀리 하와이에서 온 강사진과의 만남 그 자체로 학생들에게 신선한 자극이 되었습니다.
+      단순한 지식 전달이 아닌 '마음과 마음의 만남'에 집중한 시간이었으며,
+      향후 이러한 외부 자원과의 협력 수업 시 학생들의 종교적 감수성을 고려한 세밀한 가이드를 더한다면
+      더욱 의미 있는 교육 모델이 될 것으로 판단됩니다.
+    </p>
+  </div>
+
+  <hr class="divider" style="margin-bottom: 68px;">
+
+  <!-- 활동 영상 -->
+  <div class="video-section">
+    <div class="section-header">
+      <span class="section-num">📹</span>
+      <h2 class="section-title">활동 영상</h2>
+    </div>
+    <div class="video-grid">
+
+      <div class="video-item">
+        <video controls preload="metadata">
+          <source src="https://cdn.jsdelivr.net/gh/ykh695-sudo/image@main/wordbyheart.mp4" type="video/mp4">
+        </video>
+        <div class="video-caption">📹 활동 영상 1 — WORD by Heart</div>
+      </div>
+
+      <div class="video-item">
+        <video controls preload="metadata">
+          <source src="https://cdn.jsdelivr.net/gh/ykh695-sudo/image@main/wordbyheart2.mp4" type="video/mp4">
+        </video>
+        <div class="video-caption">📹 활동 영상 2 — WORD by Heart</div>
+      </div>
+
+      <div class="video-item">
+        <video controls preload="metadata">
+          <source src="https://cdn.jsdelivr.net/gh/ykh695-sudo/image@main/wordbyheart3.mp4" type="video/mp4">
+        </video>
+        <div class="video-caption">📹 활동 영상 3 — WORD by Heart</div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  성문고등학교 교목실 · 종교교과 특별수업 결과보고 · 2026년 5월
+</footer>
+
+</body>
+</html>
