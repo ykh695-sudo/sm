@@ -1,0 +1,453 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .wrap {
+    font-family: 'Noto Sans KR', sans-serif;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #FF8C42 0%, #FF6B1A 50%, #F5A623 100%);
+    padding: 0;
+  }
+
+  .hero {
+    padding: 28px 28px 24px;
+  }
+
+  .tag-bar {
+    background: rgba(255,255,255,0.25);
+    border-radius: 50px;
+    padding: 6px 16px;
+    display: inline-block;
+    color: white;
+    font-size: 13px;
+    margin-bottom: 16px;
+    letter-spacing: 0.5px;
+  }
+
+  .hero-title {
+    color: white;
+    font-size: 34px;
+    font-weight: 900;
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+
+  .cards-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 8px;
+  }
+
+  .q-card {
+    border-radius: 16px;
+    padding: 18px 20px 20px;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .q-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+  .q-card:active { transform: translateY(0px); }
+
+  .q-card.yellow { background: #FFD93D; }
+  .q-card.blue { background: #4FACFE; }
+
+  .card-dot {
+    width: 20px; height: 20px; border-radius: 50%;
+    display: inline-block; vertical-align: middle; margin-right: 8px;
+  }
+
+  .yellow .card-dot { background: radial-gradient(circle at 35% 35%, #FFF8A0, #D4A500); }
+  .blue .card-dot { background: radial-gradient(circle at 35% 35%, #B8D8FF, #2260AA); }
+
+  .card-label {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+  }
+
+  .blue .card-label { color: white; }
+
+  .card-q {
+    font-size: 16px;
+    font-weight: 400;
+    color: #1a1a1a;
+    line-height: 1.5;
+  }
+
+  .blue .card-q { color: white; }
+
+  .card-cta {
+    margin-top: 10px;
+    font-size: 12px;
+    color: rgba(0,0,0,0.45);
+    font-weight: 500;
+  }
+
+  .blue .card-cta { color: rgba(255,255,255,0.7); }
+
+  /* Input section */
+  .input-section {
+    background: rgba(0,0,0,0.15);
+    border-radius: 20px 20px 0 0;
+    padding: 22px 24px 28px;
+    display: none;
+    animation: slideUp 0.25s ease;
+  }
+
+  .input-section.visible { display: block; }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .input-section h3 {
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    opacity: 0.85;
+  }
+
+  .input-section .q-preview {
+    color: white;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .input-section textarea {
+    width: 100%;
+    border-radius: 12px;
+    border: none;
+    padding: 12px 14px;
+    font-size: 15px;
+    font-family: 'Noto Sans KR', sans-serif;
+    resize: none;
+    height: 80px;
+    background: rgba(255,255,255,0.92);
+    color: #1a1a1a;
+    outline: none;
+    margin-bottom: 10px;
+  }
+
+  .input-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .input-section input.name-input {
+    flex: 1;
+    border-radius: 10px;
+    border: none;
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: 'Noto Sans KR', sans-serif;
+    background: rgba(255,255,255,0.85);
+    color: #1a1a1a;
+    outline: none;
+  }
+
+  .submit-btn {
+    background: white;
+    color: #FF6B1A;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 18px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: 'Noto Sans KR', sans-serif;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    white-space: nowrap;
+  }
+
+  .submit-btn:hover { opacity: 0.88; }
+
+  .cancel-btn {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 13px;
+    font-family: 'Noto Sans KR', sans-serif;
+    cursor: pointer;
+  }
+
+  /* Board */
+  .board-section {
+    background: #FFF8F0;
+    padding: 24px;
+    min-height: 200px;
+  }
+
+  .board-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+
+  .tab-btn {
+    padding: 7px 16px;
+    border-radius: 50px;
+    border: none;
+    font-size: 13px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .tab-btn.active-yellow { background: #FFD93D; color: #333; }
+  .tab-btn.active-blue { background: #4FACFE; color: white; }
+  .tab-btn.inactive { background: #e8e3da; color: #888; }
+
+  .board-count {
+    font-size: 13px;
+    color: #aaa;
+    margin-left: auto;
+    align-self: center;
+  }
+
+  .sticky-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+  }
+
+  .sticky-note {
+    border-radius: 10px;
+    padding: 12px 14px;
+    min-height: 80px;
+    position: relative;
+    box-shadow: 2px 3px 8px rgba(0,0,0,0.10);
+    animation: popIn 0.2s ease;
+  }
+
+  @keyframes popIn {
+    from { transform: scale(0.85); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .sticky-note.yellow-note { background: #FFD93D; }
+  .sticky-note.blue-note { background: #4FACFE; }
+
+  .sticky-text {
+    font-size: 14px;
+    color: #1a1a1a;
+    line-height: 1.5;
+    word-break: break-all;
+    margin-bottom: 8px;
+  }
+
+  .blue-note .sticky-text { color: white; }
+
+  .sticky-author {
+    font-size: 11px;
+    color: rgba(0,0,0,0.4);
+    font-weight: 700;
+    text-align: right;
+  }
+
+  .blue-note .sticky-author { color: rgba(255,255,255,0.7); }
+
+  .empty-state {
+    text-align: center;
+    color: #bbb;
+    font-size: 14px;
+    padding: 30px 0;
+  }
+
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(60px);
+    background: #1a1a1a;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-family: 'Noto Sans KR', sans-serif;
+    transition: transform 0.3s ease;
+    z-index: 999;
+    white-space: nowrap;
+  }
+
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  .loading-msg {
+    color: #bbb;
+    font-size: 13px;
+    text-align: center;
+    padding: 20px;
+  }
+</style>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="tag-bar">활동</div>
+    <div class="hero-title">포스트잇 질문</div>
+    <div class="cards-row">
+      <div class="q-card yellow" onclick="openInput('yellow')">
+        <div class="card-label">
+          <span class="card-dot"></span> 노랑 포스트잇
+        </div>
+        <div class="card-q">공짜로라도<br>하고 싶은 일은?</div>
+        <div class="card-cta">↓ 탭해서 답변하기</div>
+      </div>
+      <div class="q-card blue" onclick="openInput('blue')">
+        <div class="card-label">
+          <span class="card-dot"></span> 파랑 포스트잇
+        </div>
+        <div class="card-q">세상이 지금<br>필요로 하는 일은?</div>
+        <div class="card-cta">↓ 탭해서 답변하기</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="input-section" id="input-section">
+    <h3 id="input-label">노랑 포스트잇</h3>
+    <div class="q-preview" id="input-q"></div>
+    <textarea id="answer-input" placeholder="여기에 답변을 써보세요..."></textarea>
+    <div class="input-row">
+      <input class="name-input" id="name-input" type="text" placeholder="이름 (선택)" maxlength="10">
+      <button class="cancel-btn" onclick="closeInput()">취소</button>
+      <button class="submit-btn" onclick="submitAnswer()">붙이기 ✓</button>
+    </div>
+  </div>
+
+  <div class="board-section">
+    <div class="board-tabs">
+      <button class="tab-btn active-yellow" id="tab-yellow" onclick="switchTab('yellow')">🟡 노랑</button>
+      <button class="tab-btn inactive" id="tab-blue" onclick="switchTab('blue')">🔵 파랑</button>
+      <span class="board-count" id="board-count"></span>
+    </div>
+    <div id="board-yellow" class="sticky-grid"></div>
+    <div id="board-blue" class="sticky-grid" style="display:none"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast">포스트잇이 붙었어요! 🎉</div>
+
+<script>
+  const STORAGE_KEY_Y = 'postit_yellow_v1';
+  const STORAGE_KEY_B = 'postit_blue_v1';
+  let activeColor = null;
+  let currentTab = 'yellow';
+  let answers = { yellow: [], blue: [] };
+
+  const qMap = {
+    yellow: { label: '노랑 포스트잇', q: '공짜로라도 하고 싶은 일은?' },
+    blue: { label: '파랑 포스트잇', q: '세상이 지금 필요로 하는 일은?' }
+  };
+
+  async function loadAnswers() {
+    try {
+      const ry = await window.storage.get(STORAGE_KEY_Y, true);
+      const rb = await window.storage.get(STORAGE_KEY_B, true);
+      if (ry) answers.yellow = JSON.parse(ry.value);
+      if (rb) answers.blue = JSON.parse(rb.value);
+    } catch(e) { /* first load, no data yet */ }
+    renderBoard('yellow');
+    renderBoard('blue');
+    updateCount();
+  }
+
+  function openInput(color) {
+    activeColor = color;
+    const sec = document.getElementById('input-section');
+    document.getElementById('input-label').textContent = qMap[color].label;
+    document.getElementById('input-q').textContent = qMap[color].q;
+    document.getElementById('answer-input').value = '';
+    document.getElementById('name-input').value = '';
+    sec.classList.add('visible');
+    setTimeout(() => document.getElementById('answer-input').focus(), 100);
+  }
+
+  function closeInput() {
+    document.getElementById('input-section').classList.remove('visible');
+    activeColor = null;
+  }
+
+  async function submitAnswer() {
+    const text = document.getElementById('answer-input').value.trim();
+    if (!text) { showToast('답변을 입력해 주세요 😊'); return; }
+    const name = document.getElementById('name-input').value.trim() || '익명';
+    const item = { text, name, ts: Date.now() };
+    answers[activeColor].push(item);
+    const key = activeColor === 'yellow' ? STORAGE_KEY_Y : STORAGE_KEY_B;
+    try {
+      await window.storage.set(key, JSON.stringify(answers[activeColor]), true);
+    } catch(e) { console.log('storage err', e); }
+    renderBoard(activeColor);
+    updateCount();
+    closeInput();
+    switchTab(activeColor);
+    showToast('포스트잇이 붙었어요! 🎉');
+  }
+
+  function renderBoard(color) {
+    const container = document.getElementById('board-' + color);
+    const list = answers[color];
+    if (!list.length) {
+      container.innerHTML = '<div class="empty-state">아직 답변이 없어요.<br>첫 번째로 붙여보세요!</div>';
+      return;
+    }
+    container.innerHTML = list.slice().reverse().map(item =>
+      `<div class="sticky-note ${color}-note">
+        <div class="sticky-text">${escHtml(item.text)}</div>
+        <div class="sticky-author">— ${escHtml(item.name)}</div>
+      </div>`
+    ).join('');
+  }
+
+  function switchTab(color) {
+    currentTab = color;
+    document.getElementById('board-yellow').style.display = color === 'yellow' ? '' : 'none';
+    document.getElementById('board-blue').style.display = color === 'blue' ? '' : 'none';
+    document.getElementById('tab-yellow').className = 'tab-btn ' + (color === 'yellow' ? 'active-yellow' : 'inactive');
+    document.getElementById('tab-blue').className = 'tab-btn ' + (color === 'blue' ? 'active-blue' : 'inactive');
+    updateCount();
+  }
+
+  function updateCount() {
+    const n = answers[currentTab].length;
+    document.getElementById('board-count').textContent = `${n}개의 답변`;
+  }
+
+  function escHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  loadAnswers();
+
+  setInterval(async () => {
+    try {
+      const ry = await window.storage.get(STORAGE_KEY_Y, true);
+      const rb = await window.storage.get(STORAGE_KEY_B, true);
+      if (ry) answers.yellow = JSON.parse(ry.value);
+      if (rb) answers.blue = JSON.parse(rb.value);
+      renderBoard('yellow');
+      renderBoard('blue');
+      updateCount();
+    } catch(e) {}
+  }, 8000);
+</script>
