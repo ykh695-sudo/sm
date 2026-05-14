@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -19,6 +18,9 @@
     --text-muted: #505050;
     --accent: #8b4513;
     --border: #ddd4be;
+    --positive: #43a047;
+    --neutral-clr: #fb8c00;
+    --negative: #e53935;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -29,7 +31,7 @@
     color: var(--text);
     font-weight: 300;
     line-height: 1.95;
-    font-size: 20px;
+    font-size: 18px;
   }
 
   /* ─── HERO ─── */
@@ -48,7 +50,7 @@
                 radial-gradient(ellipse at 80% 20%, rgba(201,168,76,0.08) 0%, transparent 50%);
   }
   .hero-tag {
-    font-size: 14px; letter-spacing: 5px; color: var(--gold);
+    font-size: 13px; letter-spacing: 5px; color: var(--gold);
     text-transform: uppercase; margin-bottom: 24px; position: relative;
     display: flex; align-items: center; justify-content: center; gap: 14px;
   }
@@ -64,69 +66,69 @@
   .hero-title-en em { font-style: italic; color: var(--gold-light); }
   .hero-title-ko {
     font-family: 'Noto Serif KR', serif;
-    font-size: clamp(17px, 2.4vw, 23px);
+    font-size: clamp(16px, 2.4vw, 22px);
     font-weight: 300; color: rgba(255,255,255,0.7);
     letter-spacing: 1px; margin-bottom: 44px; position: relative;
   }
   .hero-meta { display: flex; justify-content: center; flex-wrap: wrap; position: relative; }
   .meta-item {
-    padding: 11px 30px;
+    padding: 11px 28px;
     border-right: 1px solid rgba(255,255,255,0.15);
-    font-size: 15px; color: rgba(255,255,255,0.72);
+    font-size: 14px; color: rgba(255,255,255,0.72);
   }
   .meta-item:last-child { border-right: none; }
   .meta-item strong {
     display: block; color: var(--gold-light);
-    font-size: 16px; font-weight: 500; margin-bottom: 4px;
+    font-size: 15px; font-weight: 500; margin-bottom: 4px;
   }
 
   /* ─── LAYOUT ─── */
   .container { max-width: 1000px; margin: 0 auto; padding: 0 32px; }
 
   /* ─── SECTION HEADERS ─── */
-  .section-header { display: flex; align-items: center; gap: 16px; margin: 66px 0 34px; }
+  .section-header { display: flex; align-items: center; gap: 16px; margin: 66px 0 30px; }
   .section-num {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 56px; font-weight: 400;
+    font-size: 54px; font-weight: 400;
     color: var(--gold); line-height: 1; opacity: 0.5; min-width: 42px;
   }
   .section-title {
     font-family: 'Noto Serif KR', serif;
-    font-size: 26px; font-weight: 600; color: var(--navy);
+    font-size: 24px; font-weight: 600; color: var(--navy);
     border-bottom: 2px solid var(--gold); padding-bottom: 8px; flex: 1;
   }
 
   /* ─── INFO CARDS ─── */
   .info-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 16px; margin-bottom: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px; margin-bottom: 14px;
   }
   .info-card {
     background: var(--cream); border-left: 4px solid var(--gold);
-    padding: 20px 24px; border-radius: 0 6px 6px 0;
+    padding: 18px 22px; border-radius: 0 6px 6px 0;
   }
   .info-card .label {
-    font-size: 12px; letter-spacing: 2px;
-    color: var(--gold); text-transform: uppercase; margin-bottom: 6px;
+    font-size: 11px; letter-spacing: 2px;
+    color: var(--gold); text-transform: uppercase; margin-bottom: 5px;
   }
   .info-card .value {
-    font-size: 19px; color: var(--navy);
+    font-size: 17px; color: var(--navy);
     font-weight: 400; font-family: 'Noto Serif KR', serif; line-height: 1.75;
   }
 
   /* ─── CONTENT BODY ─── */
   .content-body {
     background: white; border: 1px solid var(--border);
-    border-radius: 8px; padding: 38px 44px; margin-bottom: 8px;
+    border-radius: 8px; padding: 34px 40px; margin-bottom: 8px;
   }
-  .content-body > p { font-size: 18px; color: var(--text-muted); margin-bottom: 28px; }
+  .content-body > p { font-size: 17px; color: var(--text-muted); margin-bottom: 24px; }
 
   /* ─── PILLARS ─── */
   .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
   @media (max-width: 640px) { .pillars { grid-template-columns: 1fr; } }
   .pillar {
-    text-align: center; padding: 34px 22px;
+    text-align: center; padding: 30px 20px;
     border: 1px solid var(--border); border-radius: 8px;
     background: var(--cream); position: relative; overflow: hidden;
   }
@@ -134,40 +136,40 @@
     content: ''; position: absolute; top: 0; left: 0; right: 0;
     height: 3px; background: var(--gold);
   }
-  .pillar-en { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 600; color: var(--navy); margin-bottom: 5px; }
-  .pillar-ko { font-size: 14px; color: var(--gold); letter-spacing: 1px; margin-bottom: 16px; }
-  .pillar-desc { font-size: 16px; color: var(--text-muted); line-height: 1.8; }
+  .pillar-en { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600; color: var(--navy); margin-bottom: 5px; }
+  .pillar-ko { font-size: 13px; color: var(--gold); letter-spacing: 1px; margin-bottom: 14px; }
+  .pillar-desc { font-size: 15px; color: var(--text-muted); line-height: 1.8; }
 
   /* ─── ACHIEVEMENT LIST ─── */
-  .achievement-list { list-style: none; display: flex; flex-direction: column; gap: 28px; }
-  .achievement-list li { display: flex; gap: 20px; align-items: flex-start; }
+  .achievement-list { list-style: none; display: flex; flex-direction: column; gap: 24px; }
+  .achievement-list li { display: flex; gap: 18px; align-items: flex-start; }
   .ach-icon {
-    width: 46px; height: 46px; background: var(--navy); border-radius: 50%;
+    width: 44px; height: 44px; background: var(--navy); border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0; color: var(--gold); font-size: 18px; margin-top: 4px;
+    flex-shrink: 0; color: var(--gold); font-size: 17px; margin-top: 4px;
   }
   .ach-text strong {
-    display: block; font-size: 20px; font-weight: 500;
-    color: var(--navy); margin-bottom: 6px; font-family: 'Noto Serif KR', serif;
+    display: block; font-size: 18px; font-weight: 500;
+    color: var(--navy); margin-bottom: 5px; font-family: 'Noto Serif KR', serif;
   }
-  .ach-text span { font-size: 18px; color: var(--text-muted); line-height: 1.95; }
+  .ach-text span { font-size: 17px; color: var(--text-muted); line-height: 1.95; }
 
   /* ─── FEEDBACK LIST ─── */
-  .feedback-list { list-style: none; display: flex; flex-direction: column; gap: 20px; }
+  .feedback-list { list-style: none; display: flex; flex-direction: column; gap: 18px; }
   .feedback-list li {
     background: var(--cream); border-left: 4px solid var(--accent);
-    padding: 20px 26px; border-radius: 0 6px 6px 0;
-    font-size: 18px; line-height: 1.95;
+    padding: 18px 24px; border-radius: 0 6px 6px 0;
+    font-size: 17px; line-height: 1.95;
   }
   .feedback-list li strong {
-    color: var(--accent); display: block; font-size: 19px;
-    margin-bottom: 7px; font-family: 'Noto Serif KR', serif; font-weight: 600;
+    color: var(--accent); display: block; font-size: 18px;
+    margin-bottom: 6px; font-family: 'Noto Serif KR', serif; font-weight: 600;
   }
 
   /* ─── OVERALL OPINION ─── */
   .opinion-box {
     background: var(--navy); color: white; border-radius: 10px;
-    padding: 48px 56px; position: relative; overflow: hidden; margin: 12px 0 68px;
+    padding: 44px 52px; position: relative; overflow: hidden; margin: 12px 0 68px;
   }
   .opinion-box::before {
     content: '"'; position: absolute; top: -10px; left: 30px;
@@ -175,7 +177,7 @@
     color: rgba(201,168,76,0.12); line-height: 1;
   }
   .opinion-box p {
-    font-size: 20px; line-height: 2.15; position: relative;
+    font-size: 19px; line-height: 2.1; position: relative;
     color: rgba(255,255,255,0.92); font-family: 'Noto Serif KR', serif; font-weight: 300;
   }
 
@@ -186,8 +188,8 @@
   .video-section { margin: 0 0 100px; }
   .video-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 28px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
   }
   .video-item {
     background: white; border: 1px solid var(--border);
@@ -199,19 +201,170 @@
   .video-item video {
     width: 100%; display: block;
     background: #0e1117;
-    max-height: 220px;
+    max-height: 200px;
     object-fit: cover;
   }
   .video-caption {
-    padding: 16px 20px; font-size: 17px; color: var(--text-muted);
+    padding: 14px 18px; font-size: 16px; color: var(--text-muted);
     font-family: 'Noto Serif KR', serif; border-top: 1px solid var(--border);
     background: var(--cream);
   }
 
+  /* ─── SURVEY STATS GRID ─── */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px; margin-bottom: 28px;
+  }
+  @media (max-width: 640px) { .stat-grid { grid-template-columns: repeat(2, 1fr); } }
+  .stat-card {
+    background: var(--cream); border-top: 4px solid var(--gold);
+    border-radius: 0 0 8px 8px; padding: 22px 16px;
+    text-align: center;
+  }
+  .stat-card .num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 38px; font-weight: 600; color: var(--navy);
+    display: block; line-height: 1;
+  }
+  .stat-card .stat-label {
+    font-size: 13px; color: var(--text-muted); margin-top: 8px;
+  }
+
+  /* ─── INSIGHT BOX ─── */
+  .insight-box {
+    background: rgba(201,168,76,0.08);
+    border-left: 4px solid var(--gold);
+    padding: 16px 20px; border-radius: 0 8px 8px 0;
+    margin: 16px 0 24px; font-size: 16px; color: var(--text-muted);
+  }
+  .insight-box strong { color: var(--navy); }
+
+  /* ─── SUBSECTION HEADER ─── */
+  .sub-header {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 18px; color: var(--navy-light);
+    margin: 28px 0 16px; padding-left: 14px;
+    border-left: 4px solid var(--gold-light);
+    font-weight: 600;
+  }
+
+  /* ─── CHART BLOCK ─── */
+  .chart-block {
+    background: var(--cream); border-radius: 8px;
+    padding: 22px 24px; margin: 12px 0 20px;
+    border: 1px solid var(--border);
+  }
+  .chart-title {
+    font-size: 15px; font-weight: 500;
+    color: var(--navy); margin-bottom: 16px;
+    font-family: 'Noto Serif KR', serif;
+  }
+  .bar-row {
+    display: flex; align-items: center;
+    margin-bottom: 9px; font-size: 13px; gap: 0;
+  }
+  .bar-label {
+    width: 140px; color: var(--text-muted);
+    flex-shrink: 0; font-size: 13px; line-height: 1.4;
+  }
+  .bar-container {
+    flex: 1; background: rgba(0,0,0,0.06);
+    border-radius: 5px; height: 24px;
+    position: relative; overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%; border-radius: 5px;
+    display: flex; align-items: center;
+    padding-left: 8px; color: white;
+    font-weight: 600; font-size: 12px;
+    background: linear-gradient(90deg, #5b8dd9, #2d5fa8);
+  }
+  .bar-fill.positive { background: linear-gradient(90deg, #66bb6a, #43a047); }
+  .bar-fill.neutral  { background: linear-gradient(90deg, #ffb74d, #fb8c00); }
+  .bar-fill.negative { background: linear-gradient(90deg, #ef5350, #e53935); }
+  .bar-value {
+    width: 64px; text-align: right;
+    color: var(--text-muted); font-weight: 500;
+    margin-left: 12px; flex-shrink: 0; font-size: 13px;
+  }
+
+  /* ─── THEME CARDS (qualitative) ─── */
+  .theme-card {
+    background: white; border: 1px solid var(--border);
+    border-radius: 8px; padding: 16px 18px; margin-bottom: 10px;
+  }
+  .theme-card .theme-title {
+    font-weight: 600; color: var(--navy);
+    margin-bottom: 6px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'Noto Serif KR', serif; font-size: 16px;
+  }
+  .count-badge {
+    background: var(--navy); color: var(--gold-light);
+    padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 600;
+    flex-shrink: 0;
+  }
+  .theme-card.negative .theme-title { color: var(--accent); }
+  .theme-card.negative .count-badge { background: var(--accent); color: white; }
+  .theme-card.positive .theme-title { color: #2e7d32; }
+  .theme-card.positive .count-badge { background: #43a047; color: white; }
+  .theme-card .examples {
+    font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.7;
+  }
+
+  /* ─── QUOTE BLOCK ─── */
+  .quote-block {
+    background: white; border-left: 3px solid var(--gold);
+    padding: 12px 16px; margin: 8px 0; border-radius: 0 6px 6px 0;
+    font-style: italic; color: var(--text-muted); font-size: 15px; line-height: 1.8;
+  }
+
+  /* ─── RECOMMENDATION BOXES ─── */
+  .rec-box {
+    border-radius: 10px; padding: 22px 26px;
+    margin: 14px 0;
+  }
+  .rec-box.strength {
+    background: rgba(201,168,76,0.08);
+    border-left: 5px solid var(--gold);
+  }
+  .rec-box.improve {
+    background: rgba(139,69,19,0.06);
+    border-left: 5px solid var(--accent);
+  }
+  .rec-box h4 {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 17px; font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .rec-box.strength h4 { color: var(--navy); }
+  .rec-box.improve h4 { color: var(--accent); }
+  .rec-box ul { padding-left: 20px; color: var(--text-muted); font-size: 16px; }
+  .rec-box li { margin-bottom: 8px; line-height: 1.85; }
+  .rec-box li strong { color: var(--navy); }
+  .rec-box.improve li strong { color: var(--accent); }
+
+  /* ─── TABLE ─── */
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
+  th, td { padding: 11px 13px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { background: var(--cream); color: var(--navy); font-weight: 600; font-family: 'Noto Serif KR', serif; }
+  td.center { text-align: center; }
+  td.num { text-align: right; font-weight: 600; color: var(--navy); }
+
   /* ─── FOOTER ─── */
   footer {
-    text-align: center; padding: 32px; font-size: 15px;
+    text-align: center; padding: 30px; font-size: 14px;
     color: var(--text-muted); border-top: 1px solid var(--border); letter-spacing: 0.5px;
+  }
+
+  @media (max-width: 700px) {
+    .container { padding: 0 18px; }
+    .content-body { padding: 22px 20px; }
+    .pillars { grid-template-columns: 1fr; }
+    .bar-label { width: 100px; font-size: 12px; }
+    .hero { padding: 60px 24px 48px; }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
   }
 </style>
 </head>
@@ -226,7 +379,7 @@
     <div class="meta-item"><strong>일시</strong>2026.05.11 – 05.13</div>
     <div class="meta-item"><strong>장소</strong>예배실 (소강당)</div>
     <div class="meta-item"><strong>대상</strong>2학년 5개 학급</div>
-    <div class="meta-item"><strong>강사</strong>YWAM Kona 팀 (7명)</div>
+    <div class="meta-item"><strong>강사</strong>YWAM Kona 열방대학팀 (7명)</div>
   </div>
 </div>
 
@@ -286,10 +439,331 @@
     </div>
   </div>
 
-  <!-- 03 주요 성과 -->
+  <!-- 03 학생 설문 개요 -->
   <div class="section-header">
     <span class="section-num">03</span>
-    <h2 class="section-title">주요 성과 및 장점</h2>
+    <h2 class="section-title">학생 피드백 설문 개요</h2>
+  </div>
+  <div class="content-body">
+    <p>수업 종료 후 익명 설문을 통해 학생들의 반응을 정량·정성적으로 수집·분석하였습니다.</p>
+    <div class="stat-grid">
+      <div class="stat-card">
+        <span class="num">63</span>
+        <div class="stat-label">총 응답자 수 (명)</div>
+      </div>
+      <div class="stat-card">
+        <span class="num">12</span>
+        <div class="stat-label">설문 문항 수</div>
+      </div>
+      <div class="stat-card">
+        <span class="num">3.4<span style="font-size:20px; font-family:'Noto Sans KR'">★</span></span>
+        <div class="stat-label">평균 종합 만족도 (5점)</div>
+      </div>
+      <div class="stat-card">
+        <span class="num">68%</span>
+        <div class="stat-label">긍정 응답 비율</div>
+      </div>
+    </div>
+    <div class="insight-box">
+      <strong>핵심 요약:</strong> 학생들은 전반적으로 수업을 긍정적으로 평가했으며(평균 3.4/5점), 특히 '오프닝 질문'과 '소그룹 상상력 토론' 활동에 높은 흥미를 보였습니다. 다만 영어 진행 부분의 이해도, 일부 학생이 느낀 '종교 강요'의 부담감은 개선이 필요한 영역으로 나타났습니다.
+    </div>
+  </div>
+
+  <!-- 04 정량 분석 -->
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <h2 class="section-title">정량 분석 (객관식 응답)</h2>
+  </div>
+  <div class="content-body">
+
+    <div class="sub-header">4-1. 수업 경험 전반 (Q1~Q3)</div>
+
+    <div class="chart-block">
+      <div class="chart-title">Q1. 전체적으로 이번 특별수업이 흥미로웠나요?</div>
+      <div class="bar-row">
+        <div class="bar-label">⑤ 매우 그렇다</div>
+        <div class="bar-container"><div class="bar-fill positive" style="width:19%">19%</div></div>
+        <div class="bar-value">12명</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">④ 그렇다</div>
+        <div class="bar-container"><div class="bar-fill positive" style="width:35%">35%</div></div>
+        <div class="bar-value">22명</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">③ 보통이다</div>
+        <div class="bar-container"><div class="bar-fill neutral" style="width:32%">32%</div></div>
+        <div class="bar-value">20명</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">② 그렇지 않다</div>
+        <div class="bar-container"><div class="bar-fill negative" style="width:10%">10%</div></div>
+        <div class="bar-value">6명</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">① 전혀 그렇지 않다</div>
+        <div class="bar-container"><div class="bar-fill negative" style="width:5%">5%</div></div>
+        <div class="bar-value">3명</div>
+      </div>
+    </div>
+
+    <div class="chart-block">
+      <div class="chart-title">Q2. 수업 시간이 지루하지 않고 잘 흘러갔나요?</div>
+      <div class="bar-row">
+        <div class="bar-label">⑤ 매우 그렇다</div>
+        <div class="bar-container"><div class="bar-fill positive" style="width:16%">16%</div></div>
+        <div class="bar-value">10명</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">④ 그렇다</div>
+        <div class="bar-container"><div class="bar-fill positive" style="width:33%">33%</div></div>
+        <div class="bar-value">21명</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">③ 보통이다</div>
+        <div class="bar-container"><div class="bar-fill neutral" style="width:30%">30%</div></div>
+        <div class="bar-value">19명</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">② 그렇지 않다</div>
+        <div class="bar-container"><div class="bar-fill negative" style="width:14%">14%</div></div>
+        <div class="bar-value">9명</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">① 전혀 그렇지 않다</div>
+        <div class="bar-container"><div class="bar-fill negative" style="width:6%">6%</div></div>
+        <div class="bar-value">4명</div>
+      </div>
+    </div>
+
+    <div class="chart-block">
+      <div class="chart-title">Q3. 강사분들이 학생들과 잘 소통하고 있다고 느꼈나요?</div>
+      <div class="bar-row">
+        <div class="bar-label">⑤ 매우 그렇다</div>
+        <div class="bar-container"><div class="bar-fill positive" style="width:21%">21%</div></div>
+        <div class="bar-value">13명</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">④ 그렇다</div>
+        <div class="bar-container"><div class="bar-fill positive" style="width:30%">30%</div></div>
+        <div class="bar-value">19명</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">③ 보통이다</div>
+        <div class="bar-container"><div class="bar-fill neutral" style="width:38%">38%</div></div>
+        <div class="bar-value">24명</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">② 그렇지 않다</div>
+        <div class="bar-container"><div class="bar-fill negative" style="width:8%">8%</div></div>
+        <div class="bar-value">5명</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">① 전혀 그렇지 않다</div>
+        <div class="bar-container"><div class="bar-fill negative" style="width:3%">3%</div></div>
+        <div class="bar-value">2명</div>
+      </div>
+    </div>
+
+    <div class="sub-header">4-2. 수업 방식 (Q4~Q6)</div>
+
+    <div class="chart-block">
+      <div class="chart-title">Q4. 가장 인상적이었던 활동 (복수 선택)</div>
+      <div class="bar-row">
+        <div class="bar-label">"만약 내가<br>신이라면?" 오프닝</div>
+        <div class="bar-container"><div class="bar-fill" style="width:62%">62%</div></div>
+        <div class="bar-value">19명</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">오병이어<br>상상력 토론</div>
+        <div class="bar-container"><div class="bar-fill" style="width:54%">54%</div></div>
+        <div class="bar-value">17명</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">강사들의<br>실제 이야기</div>
+        <div class="bar-container"><div class="bar-fill" style="width:48%">48%</div></div>
+        <div class="bar-value">15명</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">영어 성경<br>프레젠테이션·퀴즈</div>
+        <div class="bar-container"><div class="bar-fill" style="width:42%">42%</div></div>
+        <div class="bar-value">13명</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">기타<br>(반 친구들 참여)</div>
+        <div class="bar-container"><div class="bar-fill" style="width:6%">6%</div></div>
+        <div class="bar-value">2명</div>
+      </div>
+    </div>
+
+    <div class="chart-block">
+      <div class="chart-title">Q5. 소그룹 활동(상상력을 더해 오병이어 이야기 만들기) 참여도</div>
+      <div class="bar-row">
+        <div class="bar-label">④ 적극 참여</div>
+        <div class="bar-container"><div class="bar-fill positive" style="width:40%">40%</div></div>
+        <div class="bar-value">25명</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">③ 보통</div>
+        <div class="bar-container"><div class="bar-fill neutral" style="width:32%">32%</div></div>
+        <div class="bar-value">20명</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">② 조금 참여</div>
+        <div class="bar-container"><div class="bar-fill negative" style="width:22%">22%</div></div>
+        <div class="bar-value">14명</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">① 거의 참여 안 함</div>
+        <div class="bar-container"><div class="bar-fill negative" style="width:6%">6%</div></div>
+        <div class="bar-value">4명</div>
+      </div>
+    </div>
+
+    <div class="chart-block">
+      <div class="chart-title">Q6. 영어로 진행된 부분(프레젠테이션·퀴즈)의 영향</div>
+      <div class="bar-row">
+        <div class="bar-label">④ 영어공부도 되고<br>재밌었다</div>
+        <div class="bar-container"><div class="bar-fill positive" style="width:21%">21%</div></div>
+        <div class="bar-value">13명</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">③ 흥미롭고<br>집중이 잘 됐다</div>
+        <div class="bar-container"><div class="bar-fill positive" style="width:24%">24%</div></div>
+        <div class="bar-value">15명</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">② 별 영향 없음</div>
+        <div class="bar-container"><div class="bar-fill neutral" style="width:38%">38%</div></div>
+        <div class="bar-value">24명</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">① 이해가 더 어려웠다</div>
+        <div class="bar-container"><div class="bar-fill negative" style="width:17%">17%</div></div>
+        <div class="bar-value">11명</div>
+      </div>
+    </div>
+
+    <div class="sub-header">4-3. 내용과 생각 (Q7~Q9)</div>
+
+    <div class="chart-block">
+      <div class="chart-title">Q7. 이번 수업을 통해 '기독교' 또는 '신앙'에 대해 새롭게 생각해보게 된 점이 있었나요?</div>
+      <div class="bar-row">
+        <div class="bar-label">⑤ 매우 그렇다</div>
+        <div class="bar-container"><div class="bar-fill positive" style="width:13%">13%</div></div>
+        <div class="bar-value">8명</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">④ 그렇다</div>
+        <div class="bar-container"><div class="bar-fill positive" style="width:27%">27%</div></div>
+        <div class="bar-value">17명</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">③ 보통이다</div>
+        <div class="bar-container"><div class="bar-fill neutral" style="width:33%">33%</div></div>
+        <div class="bar-value">21명</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">② 그렇지 않다</div>
+        <div class="bar-container"><div class="bar-fill negative" style="width:19%">19%</div></div>
+        <div class="bar-value">12명</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">① 전혀 그렇지 않다</div>
+        <div class="bar-container"><div class="bar-fill negative" style="width:8%">8%</div></div>
+        <div class="bar-value">5명</div>
+      </div>
+    </div>
+
+    <div class="chart-block">
+      <div class="chart-title">Q8. 수업 전과 비교해서, 예수님이나 성경 이야기에 대한 나의 생각은?</div>
+      <div class="bar-row">
+        <div class="bar-label">④ 관심이 생겼다</div>
+        <div class="bar-container"><div class="bar-fill positive" style="width:17%">17%</div></div>
+        <div class="bar-value">11명</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">③ 조금 더 친근하게<br>느껴졌다</div>
+        <div class="bar-container"><div class="bar-fill positive" style="width:30%">30%</div></div>
+        <div class="bar-value">19명</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">② 변화 없다</div>
+        <div class="bar-container"><div class="bar-fill neutral" style="width:43%">43%</div></div>
+        <div class="bar-value">27명</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">① 더 부정적으로<br>느껴졌다</div>
+        <div class="bar-container"><div class="bar-fill negative" style="width:10%">10%</div></div>
+        <div class="bar-value">6명</div>
+      </div>
+    </div>
+
+    <div class="chart-block">
+      <div class="chart-title">Q9. 이런 방식의 수업이 일반 종교수업보다 어떤가요?</div>
+      <div class="bar-row">
+        <div class="bar-label">④ 훨씬 더 좋다</div>
+        <div class="bar-container"><div class="bar-fill positive" style="width:19%">19%</div></div>
+        <div class="bar-value">12명</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">③ 이런 방식이<br>더 좋다</div>
+        <div class="bar-container"><div class="bar-fill positive" style="width:24%">24%</div></div>
+        <div class="bar-value">15명</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">② 비슷하다</div>
+        <div class="bar-container"><div class="bar-fill neutral" style="width:33%">33%</div></div>
+        <div class="bar-value">21명</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">① 일반 수업이<br>더 낫다</div>
+        <div class="bar-container"><div class="bar-fill negative" style="width:24%">24%</div></div>
+        <div class="bar-value">15명</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 05 정성 분석 -->
+  <div class="section-header">
+    <span class="section-num">05</span>
+    <h2 class="section-title">정성 분석 (자유응답)</h2>
+  </div>
+  <div class="content-body">
+    <p>학생들의 자유응답에서 아쉬웠거나 불편했던 점을 주제별로 분류하였습니다.</p>
+
+    <div class="theme-card negative">
+      <div class="theme-title"><span>① 영어 진행으로 인한 이해 어려움</span><span class="count-badge">11건</span></div>
+      <div class="examples">"영어 이해가 잘 안 됨" · "영어를 이해하는데 어려움이 있었어요" · "영어가 어려웠다"</div>
+    </div>
+
+    <div class="theme-card negative">
+      <div class="theme-title"><span>② 종교·신앙 강요로 느껴짐</span><span class="count-badge">8건</span></div>
+      <div class="examples">"종교를 너무 강요하는 느낌이 들었다" · "기독교를 안 믿는 친구들이 부담스러운 느낌을 느낄 것 같았다" · "조금 부담스러웠다"</div>
+    </div>
+
+    <div class="theme-card negative">
+      <div class="theme-title"><span>③ 수업 지루함·집중 어려움</span><span class="count-badge">7건</span></div>
+      <div class="examples">"살짝 지루함" · "약간 지루했다" · "수업 집중이 잘 안됨" · "너무 지루함"</div>
+    </div>
+
+    <div class="theme-card negative">
+      <div class="theme-title"><span>④ 시간·진행 관련</span><span class="count-badge">4건</span></div>
+      <div class="examples">"한 시간 안에 준비하신 내용이 모두 진행되지 않아 아쉬웠음" · "시간이 좀 부족함" · "진행이 매끄럽지 않았음"</div>
+    </div>
+
+    <div class="theme-card negative">
+      <div class="theme-title"><span>⑤ 기타 (의자 불편, 신앙 차이 등)</span><span class="count-badge">3건</span></div>
+      <div class="examples">"의자가 너무 불편했습니다" · "신앙이 없는 사람으로선 답답"</div>
+    </div>
+
+  </div>
+
+  <!-- 06 주요 성과 -->
+  <div class="section-header">
+    <span class="section-num">06</span>
+    <h2 class="section-title">주요 성과 및 강점</h2>
   </div>
   <div class="content-body">
     <ul class="achievement-list">
@@ -317,30 +791,45 @@
     </ul>
   </div>
 
-  <!-- 04 개선 제언 -->
+  <!-- 07 핵심 인사이트 & 개선 제언 -->
   <div class="section-header">
-    <span class="section-num">04</span>
-    <h2 class="section-title">향후 개선을 위한 제언</h2>
+    <span class="section-num">07</span>
+    <h2 class="section-title">핵심 인사이트 &amp; 향후 개선 제언</h2>
   </div>
   <div class="content-body">
-    <ul class="feedback-list">
+
+    <div class="rec-box strength">
+      <h4>✦ 강점 (Strengths)</h4>
+      <ul>
+        <li><strong>참여형 활동이 효과적이었음:</strong> 오프닝 질문과 소그룹 상상력 토론이 가장 인상적인 활동으로 꼽혔으며, 적극 참여+보통 참여 응답이 72%에 달함.</li>
+        <li><strong>강사의 진정성 있는 이야기 전달:</strong> 강사들의 실제 경험·신앙 이야기를 공유한 순간이 학생들의 기억에 남는 핵심 콘텐츠로 작용함.</li>
+        <li><strong>일반 수업 대비 차별화:</strong> 43%가 이런 방식의 수업이 일반 종교수업보다 좋다고 평가함.</li>
+      </ul>
+    </div>
+
+    <ul class="feedback-list" style="margin-top: 20px;">
       <li>
         <strong>학습 동기부여 세션의 필요성</strong>
         '성경 익히기 방법론'에 앞서, 종교적 배경이 다양한 일반계 고교 학생들에게 "왜 이 이야기가 우리 삶에 의미가 있는가"에 대한 정서적 접점을 먼저 만드는 과정이 보완되어야 합니다.
       </li>
       <li>
-        <strong>용어의 눈높이 조정</strong>
-        '보혈', '유월절', '성령' 등 교회 안의 언어를 학생들의 눈높이에 맞춘 일상 언어로 재해석하여 전달하는 것이 필요합니다.
+        <strong>영어 진행 비중 조절 및 번역 지원</strong>
+        17%의 학생이 "이해가 더 어려웠다"고 응답하였고, 자유응답에서도 영어 이해 어려움이 가장 많이 언급되었습니다(11건). 영어 부분의 한국어 부연 설명 또는 자막·번역 자료 제공이 필요합니다.
       </li>
       <li>
-        <strong>강사 역량의 편차 관리</strong>
-        강사진의 학생 소통 역량에 따라 학급별 수업 분위기와 만족도에 유의미한 차이가 발생하였습니다. 일부 학급은 매우 긍정적인 반응을 보인 반면, 소통이 원활하지 못했던 학급에서는 다소 부정적인 인식이 형성되었을 우려가 있습니다.
+        <strong>'종교 강요' 느낌 완화 및 용어 조정</strong>
+        자유응답에서 8명이 신앙 강요·부담감을 언급하였습니다. '보혈', '유월절', '성령' 등 교회 안의 언어를 학생들의 눈높이에 맞춘 일상 언어로 재해석하고, 비신앙 학생을 배려하는 중립적 표현과 다종교적 시각의 균형이 요구됩니다.
       </li>
       <li>
-        <strong>강사진의 연령대 고려 및 학생 공감대 형성</strong>
-        방문 강사진의 전반적인 연령대가 다소 높아, 고등학생들과의 정서적 접점을 찾거나 최신 세대 문화를 반영한 역동적인 소통을 이끌어내는 데 한계가 있었습니다.
+        <strong>수업 흐름·시간 관리 강화</strong>
+        "시간이 부족했다", "진행이 매끄럽지 않았다"는 의견이 다수 수집되었습니다. 사전 리허설 강화 및 콘텐츠 우선순위 조정을 통한 시간 관리가 필요합니다.
+      </li>
+      <li>
+        <strong>강사 역량 편차 관리 및 연령대 고려</strong>
+        강사진의 학생 소통 역량에 따라 학급별 수업 분위기와 만족도에 유의미한 차이가 발생하였습니다. 또한 방문 강사진의 전반적인 연령대가 다소 높아, 고등학생들과의 정서적 접점을 찾거나 최신 세대 문화를 반영한 역동적인 소통을 이끌어내는 데 한계가 있었습니다. 더 많은 양방향 상호작용 기회 마련이 필요합니다.
       </li>
     </ul>
+
   </div>
 
   <!-- 종합 의견 -->
@@ -352,7 +841,10 @@
     <p>
       이번 특별 수업은 멀리 하와이에서 온 강사진과의 만남 그 자체로 학생들에게 신선한 자극이 되었습니다.
       단순한 지식 전달이 아닌 '마음과 마음의 만남'에 집중한 시간이었으며,
-      향후 이러한 외부 자원과의 협력 수업 시 학생들의 종교적 감수성을 고려한 세밀한 가이드를 더한다면
+      학생 설문 결과(평균 만족도 3.4점, 긍정 응답 68%)는 이러한 방식의 수업이 지닌 가능성을 확인시켜 줍니다.
+      다만 이를 '성공'으로 단정짓기보다는 향후 추가적인 점검이 필요한 결과로 보는 것이 적절하며,
+      학생들의 종교적 감수성을 고려한 세밀한 가이드라인과
+      영어 진행 접근성·시간 관리 등의 개선이 더해진다면
       더욱 의미 있는 교육 모델이 될 것으로 판단됩니다.
     </p>
   </div>
@@ -366,35 +858,31 @@
       <h2 class="section-title">활동 영상</h2>
     </div>
     <div class="video-grid">
-
       <div class="video-item">
         <video controls preload="metadata">
           <source src="https://cdn.jsdelivr.net/gh/ykh695-sudo/image@main/wordbyheart.mp4" type="video/mp4">
         </video>
         <div class="video-caption">📹 활동 영상 1 — WORD by Heart</div>
       </div>
-
       <div class="video-item">
         <video controls preload="metadata">
           <source src="https://cdn.jsdelivr.net/gh/ykh695-sudo/image@main/wordbyheart2.mp4" type="video/mp4">
         </video>
         <div class="video-caption">📹 활동 영상 2 — WORD by Heart</div>
       </div>
-
       <div class="video-item">
         <video controls preload="metadata">
           <source src="https://cdn.jsdelivr.net/gh/ykh695-sudo/image@main/wordbyheart3.mp4" type="video/mp4">
         </video>
         <div class="video-caption">📹 활동 영상 3 — WORD by Heart</div>
       </div>
-
     </div>
   </div>
 
 </div>
 
 <footer>
-  성문고등학교 교목실 · 종교교과 특별수업 결과보고 · 2026년 5월
+  성문고등학교 종교교과 특별수업 결과보고 · 2026년 5월
 </footer>
 
 </body>
