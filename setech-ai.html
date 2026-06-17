@@ -486,12 +486,12 @@ const state = {
   neisFiles: [],
   achFiles: [],
   students: [],       // NEIS에서 파싱한 학생 목록
-  activities: {       // 활동별 파일/데이터
-    1: { name:'일상생활에서 종교 찾기', type:'individual', files:[] },
+  activities: {       // 활동별 파일/데이터 — 전체 Excel
+    1: { name:'일상생활에서 종교 찾기', type:'excel', files:[], data:[] },
     2: { name:'종교의 긍정적, 부정적 영향 찾아보기', type:'excel', files:[], data:[] },
-    3: { name:'순환적 역사관과 진보적 역사관', type:'individual', files:[] },
+    3: { name:'순환적 역사관과 진보적 역사관', type:'excel', files:[], data:[] },
     4: { name:'종교와 자아정체성 성찰 활동', type:'excel', files:[], data:[] },
-    5: { name:'종교와 생명', type:'individual', files:[] },
+    5: { name:'종교와 생명', type:'excel', files:[], data:[] },
   },
   currentPTab: 'role',
   activePTA: null,
@@ -744,7 +744,7 @@ function readEntry(entry, files) {
 }
 
 async function processFiles(files) {
-  // 활동 폴더 매핑 초기화
+  // 활동 초기화
   for (let i = 1; i <= 5; i++) {
     state.activities[i].files = [];
     state.activities[i].data = [];
@@ -815,7 +815,7 @@ function matchStudentFromFilename(filename) {
   return { name: name.trim() };
 }
 
-// Excel 파싱 (Google Forms 형태)
+// Excel 파싱 — 활동별 형태 자동 감지
 function parseActivityExcel(actNum, file) {
   return new Promise(resolve => {
     const r = new FileReader();
@@ -824,27 +824,113 @@ function parseActivityExcel(actNum, file) {
       const ws = wb.Sheets[wb.SheetNames[0]];
       const rows = XLSX.utils.sheet_to_json(ws, {header:1});
       if (rows.length < 2) { resolve(); return; }
-      const headers = rows[0];
-      // 학번이름 열 찾기 (1번 인덱스, 타임스탬프 다음)
-      const nameColIdx = 1;
-      for (let i = 1; i < rows.length; i++) {
-        const row = rows[i];
-        if (!row || !row[nameColIdx]) continue;
-        const raw = String(row[nameColIdx]).trim();
-        // "20107 박제이" 형태 파싱
-        const m = raw.match(/(\d{5})\s+(.+)/);
-        const studentId = m ? m[1] : '';
-        const studentName = m ? m[2].trim() : raw.trim();
-        // 응답 내용 조합 (헤더와 함께)
-        const contents = [];
-        for (let j = 2; j < headers.length; j++) {
-          if (row[j]) {
-            const q = String(headers[j]).replace(/^\d+\.\s*/, '').substring(0, 40);
-            contents.push(`[${q}]\n${row[j]}`);
+
+      // ── 활동 2, 4번: Google Forms (타임스탬프 | 학번이름합쳐짐 | 질문들)
+      if (actNum === 2 || actNum === 4) {
+        const headers = rows[0];
+        for (let i = 1; i < rows.length; i++) {
+          const row = rows[i];
+          if (!row || !row[1]) continue;
+          const raw = String(row[1]).trim();
+          const m = raw.match(/(\d{5})\s+(.+)/);
+          const studentId = m ? m[1] : '';
+          const studentName = m ? m[2].trim() : raw;
+          const contents = [];
+          for (let j = 2; j < headers.length; j++) {
+            if (row[j]) {
+              const q = String(headers[j]).replace(/^\d+\.\s*/, '').replace(/\[.*?\]\s*/, '').substring(0, 50);
+              contents.push(`[${q}]\n${row[j]}`);
+            }
+          }
+          state.activities[actNum].data.push({
+            studentId, name: studentName, content: contents.join('\n\n')
+          });
+        }
+
+      // ── 활동 1번: 일반 Excel (연번 | 학번 | 이름 | 내용들)
+      } else if (actNum === 1) {
+        const headers = rows[0];
+        for (let i = 1; i < rows.length; i++) {
+          const row = rows[i];
+          if (!row || !row[1]) continue;
+          const studentId = String(row[1]).trim();
+          const studentName = String(row[2] || '').trim();
+          if (!studentName) continue;
+          const contents = [];
+          for (let j = 3; j < headers.length; j++) {
+            if (row[j]) {
+              const q = String(headers[j]).substring(0, 50);
+              contents.push(`[${q}]\n${row[j]}`);
+            }
+          }
+          state.activities[actNum].data.push({
+            studentId, name: studentName, content: contents.join('\n\n')
+          });
+        }
+
+      // ── 활동 3번: 일반 Excel (학번 | 이름 | 내용들)
+      } else if (actNum === 3) {
+        const headers = rows[0];
+        for (let i = 1; i < rows.length; i++) {
+          const row = rows[i];
+          if (!row || !row[0]) continue;
+          const studentId = String(row[0]).trim();
+          const studentName = String(row[1] || '').trim();
+          if (!studentName) continue;
+          const contents = [];
+          for (let j = 2; j < headers.length; j++) {
+            if (row[j]) {
+              const q = String(headers[j]).substring(0, 50);
+              contents.push(`[${q}]\n${row[j]}`);
+            }
+          }
+          state.activities[actNum].data.push({
+            studentId, name: studentName, content: contents.join('\n\n')
+          });
+        }
+
+      // ── 활동 5번: 일반 Excel (1행=제목, 2행=헤더, 3행~=데이터, 빈행 있음)
+      } else if (actNum === 5) {
+        const headers = rows[1]; // 2행이 헤더
+        // 학생별로 여러 행에 걸친 데이터 병합
+        let currentStudent = null;
+        for (let i = 2; i < rows.length; i++) {
+          const row = rows[i];
+          if (!row) continue;
+          // 학번이 있는 행 = 새 학생 시작
+          if (row[0] && String(row[0]).match(/^\d{4,6}$/)) {
+            if (currentStudent) state.activities[actNum].data.push(currentStudent);
+            const studentId = String(row[0]).trim();
+            const studentName = String(row[1] || '').trim();
+            const contents = [];
+            for (let j = 2; j < headers.length; j++) {
+              if (row[j]) {
+                const q = String(headers[j]).substring(0, 50);
+                contents.push(`[${q}]\n${row[j]}`);
+              }
+            }
+            currentStudent = { studentId, name: studentName, contentParts: contents };
+          } else if (currentStudent) {
+            // 빈행 아닌 경우 기존 학생 데이터에 추가
+            for (let j = 2; j < (headers || []).length; j++) {
+              if (row[j]) {
+                const q = String((headers[j] || '')).substring(0, 50);
+                const existing = currentStudent.contentParts.find(c => c.startsWith(`[${q}]`));
+                if (existing) {
+                  const idx = currentStudent.contentParts.indexOf(existing);
+                  currentStudent.contentParts[idx] += '\n' + row[j];
+                } else {
+                  currentStudent.contentParts.push(`[${q}]\n${row[j]}`);
+                }
+              }
+            }
           }
         }
-        state.activities[actNum].data.push({
-          studentId, name: studentName, content: contents.join('\n\n')
+        if (currentStudent) state.activities[actNum].data.push(currentStudent);
+        // contentParts → content 변환
+        state.activities[actNum].data.forEach(d => {
+          d.content = d.contentParts.join('\n\n');
+          delete d.contentParts;
         });
       }
       resolve();
@@ -853,29 +939,23 @@ function parseActivityExcel(actNum, file) {
   });
 }
 
-// 학생별 활동 내용 매핑
+// 학생별 활동 내용 매핑 — 모든 활동이 Excel data 기반
 async function matchStudentsToActivities() {
   for (const student of state.students) {
     student.actContents = {};
-    // Excel 활동 (2, 4)
-    for (const actNum of [2, 4]) {
-      const found = state.activities[actNum].data.find(d =>
-        (d.studentId && d.studentId === String(student.studentId)) ||
-        d.name === student.name ||
-        student.name.includes(d.name) || d.name.includes(student.name)
-      );
-      if (found) student.actContents[actNum] = found.content;
-    }
-    // 개별 파일 활동 (1, 3, 5)
-    for (const actNum of [1, 3, 5]) {
-      const file = state.activities[actNum].files.find(f => {
-        const key = f._studentKey;
-        if (!key) return false;
-        return (key.studentId && key.studentId === String(student.studentId)) ||
-               key.name === student.name ||
-               student.name.includes(key.name) || key.name.includes(student.name);
+    for (let actNum = 1; actNum <= 5; actNum++) {
+      const found = state.activities[actNum].data.find(d => {
+        const sid = String(student.studentId || '').trim();
+        const sname = (student.name || '').trim();
+        const did = String(d.studentId || '').trim();
+        const dname = (d.name || '').trim();
+        // 학번 일치 (우선)
+        if (sid && did && sid === did) return true;
+        // 이름 일치
+        if (sname && dname && (sname === dname || sname.includes(dname) || dname.includes(sname))) return true;
+        return false;
       });
-      if (file) student.actContents[actNum] = file; // 파일 참조 저장
+      if (found) student.actContents[actNum] = found.content;
     }
   }
 }
@@ -888,9 +968,7 @@ function renderActivityStatus() {
   grid.innerHTML = '';
   for (let i = 1; i <= 5; i++) {
     const act = state.activities[i];
-    const count = i === 2 || i === 4
-      ? act.data.length
-      : act.files.length;
+    const count = act.data.length;
     const card = document.createElement('div');
     card.className = `act-card ${count > 0 ? 'loaded' : ''}`;
     card.innerHTML = `<div class="act-num">${i}</div><div class="act-name">${act.name}</div><div class="act-count">${count > 0 ? `✅ ${count}건` : '⚠️ 없음'}</div>`;
@@ -1026,26 +1104,13 @@ async function startGeneration() {
   for (const student of state.students) {
     addLog(`⏳ ${student.classNum} ${student.name} 처리 중...`);
     try {
-      // 활동별 텍스트/PDF 수집
+      // 활동별 텍스트 수집 (모두 Excel 텍스트)
       const actTexts = {};
-      const pdfFiles = [];
       for (let i = 1; i <= 5; i++) {
-        const content = student.actContents[i];
-        if (!content) continue;
-        if (typeof content === 'string') {
-          actTexts[i] = content;
-        } else if (content instanceof File) {
-          const read = await readFileContent(content);
-          if (read.type === 'pdf') {
-            pdfFiles.push(read);
-            actTexts[i] = `[PDF 첨부 — 활동${i}]`;
-          } else {
-            actTexts[i] = read.content;
-          }
-        }
+        if (student.actContents[i]) actTexts[i] = student.actContents[i];
       }
       const prompt = buildPrompt(student, actTexts);
-      const result = await callGemini(prompt, pdfFiles);
+      const result = await callGemini(prompt, []);
       student.result = result.trim();
       student.bytes = calcBytes(student.result);
       const actCount = Object.keys(actTexts).length;
