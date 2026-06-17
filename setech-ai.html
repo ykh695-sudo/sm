@@ -297,7 +297,7 @@ hr{border:none;border-top:1px solid var(--border);margin:16px 0;}
       <div class="panel-title">📁 반 폴더 업로드 <span class="badge">활동 5개 포함된 폴더</span></div>
       <div class="alert alert-info">
         <strong>폴더 구조:</strong> 반 폴더 안에 활동별 하위 폴더 5개 → 각 폴더 안에 학생별 파일<br>
-        활동 1,3,5: 학번이름.pdf / .docx 개별 파일 &nbsp;|&nbsp; 활동 2,4: Google Forms 응답 Excel
+        활동 1~5번 모두 Google Forms 응답 Excel 파일 (타임스탬프 | 학번이름 | 질문들)
       </div>
       <div class="upload-zone" style="padding:36px 20px;" ondragover="onDrag(event,this)" ondragleave="offDrag(this)" ondrop="onDrop(event,this,'folder')">
         <input type="file" id="folderInput" webkitdirectory multiple onchange="handleFolder(event)">
@@ -769,20 +769,12 @@ async function processFiles(files) {
     if (!matched) unmatched.push(file);
   }
 
-  // Excel 파일 파싱 (활동 2, 4)
-  for (const actNum of [2, 4]) {
+  // 모든 활동 Excel 파싱 (1~5번 전부 Google Forms Excel)
+  for (let actNum = 1; actNum <= 5; actNum++) {
     const excelFiles = state.activities[actNum].files.filter(f => f.name.match(/\.xlsx?$/i));
     for (const ef of excelFiles) {
       await parseActivityExcel(actNum, ef);
     }
-  }
-
-  // 개별 파일 매칭 (활동 1, 3, 5)
-  for (const actNum of [1, 3, 5]) {
-    state.activities[actNum].files.forEach(file => {
-      const matched = matchStudentFromFilename(file.name);
-      if (matched) file._studentKey = matched;
-    });
   }
 
   // 학생별 활동 내용 매핑
@@ -815,7 +807,8 @@ function matchStudentFromFilename(filename) {
   return { name: name.trim() };
 }
 
-// Excel 파싱 — 활동별 형태 자동 감지
+// Excel 파싱 — 5개 활동 전부 Google Forms 동일 구조
+// 타임스탬프 | 학번이름(한셀) | 질문1 | 질문2 | ...
 function parseActivityExcel(actNum, file) {
   return new Promise(resolve => {
     const r = new FileReader();
@@ -825,112 +818,43 @@ function parseActivityExcel(actNum, file) {
       const rows = XLSX.utils.sheet_to_json(ws, {header:1});
       if (rows.length < 2) { resolve(); return; }
 
-      // ── 활동 2, 4번: Google Forms (타임스탬프 | 학번이름합쳐짐 | 질문들)
-      if (actNum === 2 || actNum === 4) {
-        const headers = rows[0];
-        for (let i = 1; i < rows.length; i++) {
-          const row = rows[i];
-          if (!row || !row[1]) continue;
-          const raw = String(row[1]).trim();
-          const m = raw.match(/(\d{5})\s+(.+)/);
-          const studentId = m ? m[1] : '';
-          const studentName = m ? m[2].trim() : raw;
-          const contents = [];
-          for (let j = 2; j < headers.length; j++) {
-            if (row[j]) {
-              const q = String(headers[j]).replace(/^\d+\.\s*/, '').replace(/\[.*?\]\s*/, '').substring(0, 50);
-              contents.push(`[${q}]\n${row[j]}`);
-            }
-          }
-          state.activities[actNum].data.push({
-            studentId, name: studentName, content: contents.join('\n\n')
-          });
+      const headers = rows[0];
+      // 학번이름 열 찾기: "학번" 또는 "이름" 포함된 열, 없으면 인덱스 1
+      let nameColIdx = 1;
+      for (let j = 0; j < headers.length; j++) {
+        const h = String(headers[j] || '');
+        if (h.includes('학번') || h.includes('이름')) { nameColIdx = j; break; }
+      }
+
+      for (let i = 1; i < rows.length; i++) {
+        const row = rows[i];
+        if (!row || !row[nameColIdx]) continue;
+        const raw = String(row[nameColIdx]).trim();
+        if (!raw) continue;
+
+        // "20107 박제이" 또는 "20107박제이" 형태 파싱
+        const m = raw.match(/(\d{4,6})\s*(.+)/);
+        const studentId = m ? m[1] : '';
+        const studentName = m ? m[2].trim() : raw;
+        if (!studentName) continue;
+
+        // 질문-응답 내용 조합 (학번이름 열 이후부터)
+        const contents = [];
+        for (let j = nameColIdx + 1; j < headers.length; j++) {
+          if (row[j] == null || row[j] === '') continue;
+          // 헤더에서 질문 텍스트 추출 (번호, 괄호 제거 후 앞 60자)
+          const q = String(headers[j] || '')
+            .replace(/^\d+\.\s*/, '')
+            .replace(/\[.*?\]/g, '')
+            .trim()
+            .substring(0, 60);
+          contents.push(`[${q}]\n${row[j]}`);
         }
 
-      // ── 활동 1번: 일반 Excel (연번 | 학번 | 이름 | 내용들)
-      } else if (actNum === 1) {
-        const headers = rows[0];
-        for (let i = 1; i < rows.length; i++) {
-          const row = rows[i];
-          if (!row || !row[1]) continue;
-          const studentId = String(row[1]).trim();
-          const studentName = String(row[2] || '').trim();
-          if (!studentName) continue;
-          const contents = [];
-          for (let j = 3; j < headers.length; j++) {
-            if (row[j]) {
-              const q = String(headers[j]).substring(0, 50);
-              contents.push(`[${q}]\n${row[j]}`);
-            }
-          }
-          state.activities[actNum].data.push({
-            studentId, name: studentName, content: contents.join('\n\n')
-          });
-        }
-
-      // ── 활동 3번: 일반 Excel (학번 | 이름 | 내용들)
-      } else if (actNum === 3) {
-        const headers = rows[0];
-        for (let i = 1; i < rows.length; i++) {
-          const row = rows[i];
-          if (!row || !row[0]) continue;
-          const studentId = String(row[0]).trim();
-          const studentName = String(row[1] || '').trim();
-          if (!studentName) continue;
-          const contents = [];
-          for (let j = 2; j < headers.length; j++) {
-            if (row[j]) {
-              const q = String(headers[j]).substring(0, 50);
-              contents.push(`[${q}]\n${row[j]}`);
-            }
-          }
-          state.activities[actNum].data.push({
-            studentId, name: studentName, content: contents.join('\n\n')
-          });
-        }
-
-      // ── 활동 5번: 일반 Excel (1행=제목, 2행=헤더, 3행~=데이터, 빈행 있음)
-      } else if (actNum === 5) {
-        const headers = rows[1]; // 2행이 헤더
-        // 학생별로 여러 행에 걸친 데이터 병합
-        let currentStudent = null;
-        for (let i = 2; i < rows.length; i++) {
-          const row = rows[i];
-          if (!row) continue;
-          // 학번이 있는 행 = 새 학생 시작
-          if (row[0] && String(row[0]).match(/^\d{4,6}$/)) {
-            if (currentStudent) state.activities[actNum].data.push(currentStudent);
-            const studentId = String(row[0]).trim();
-            const studentName = String(row[1] || '').trim();
-            const contents = [];
-            for (let j = 2; j < headers.length; j++) {
-              if (row[j]) {
-                const q = String(headers[j]).substring(0, 50);
-                contents.push(`[${q}]\n${row[j]}`);
-              }
-            }
-            currentStudent = { studentId, name: studentName, contentParts: contents };
-          } else if (currentStudent) {
-            // 빈행 아닌 경우 기존 학생 데이터에 추가
-            for (let j = 2; j < (headers || []).length; j++) {
-              if (row[j]) {
-                const q = String((headers[j] || '')).substring(0, 50);
-                const existing = currentStudent.contentParts.find(c => c.startsWith(`[${q}]`));
-                if (existing) {
-                  const idx = currentStudent.contentParts.indexOf(existing);
-                  currentStudent.contentParts[idx] += '\n' + row[j];
-                } else {
-                  currentStudent.contentParts.push(`[${q}]\n${row[j]}`);
-                }
-              }
-            }
-          }
-        }
-        if (currentStudent) state.activities[actNum].data.push(currentStudent);
-        // contentParts → content 변환
-        state.activities[actNum].data.forEach(d => {
-          d.content = d.contentParts.join('\n\n');
-          delete d.contentParts;
+        state.activities[actNum].data.push({
+          studentId,
+          name: studentName,
+          content: contents.join('\n\n')
         });
       }
       resolve();
